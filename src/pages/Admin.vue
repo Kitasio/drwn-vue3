@@ -15,7 +15,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                             <tr class="border-b-2 border-light-purple" v-for="stock in stocks" :key="stock.id">
+                                
                                 <td class="py-3">{{ stock.ticker }}</td>
                                 <td class="py-3">{{ stock.sector.name }}</td>
                                 <td class="p-3">
@@ -103,9 +105,17 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <router-link :to="`/admin/${stock.id}`">edit</router-link>
+                                    <router-link :to="`/admin/${stock.id}`">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </router-link>
                                 </td>
-                                <td @click="deleteStock(stock.id)" class="text-base-red cursor-pointer text-lg">x</td>
+                                <td @click="deleteStock(stock.id)" class="text-base-red cursor-pointer text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -173,6 +183,8 @@ export default defineComponent({
             'FIBO',
             'Stoch',
             'Pattern',
+            '',
+            '',
         ])
 
         return { router, getDate, suggestions, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
