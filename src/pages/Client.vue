@@ -59,7 +59,7 @@
 						<tbody>
 								<tr class="border-b border-light-purple h-16" v-for="stock in stocks" :key="stock.id">
 									<td class="pr-3">
-										<router-link :to="{ name: 'Analytics', params: { id: stock.id }}"><img class="h-10 my-auto" :src="stock.logo" alt=""></router-link>
+										<router-link :to="{ name: 'Analytics', params: { id: stock.id }}"><img class="w-10 my-auto" :src="stock.logo" alt=""></router-link>
 									</td>
 									<td class="font-benzin-bold">
 										<router-link :to="{ name: 'Analytics', params: { id: stock.id }}">#{{ stock.ticker }}</router-link>
