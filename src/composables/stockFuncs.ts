@@ -1,0 +1,216 @@
+import { ref } from "vue"
+import { db, ts, storage } from "./fireConf"
+
+const stockFuncs = () => {
+    const stocks = ref<any>([])
+    const stock = ref<any>({
+        ticker: '',
+        sector: {
+            name: '',
+        },
+        logo: '',
+        tradingView: '',
+        highLows: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        smaEma: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        accum: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        adx: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        fwd: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        debtEquity: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        currentRatio: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        openInterest: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        analysis: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        shortFloat: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        levels: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        fibo: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        stoch: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+        pattern: {
+            color: '',
+            text: '',
+            num: 1,
+        },
+    })
+
+    const file = ref(null)
+
+    const getStocks = () => {
+        db.collection("stocks").orderBy("createdAt", "desc").onSnapshot(item => {
+            stocks.value = item.docs.map(doc => {
+                return { ...doc.data(), id: doc.id }
+            })
+        })
+    }
+
+    const getStock = (id: string) => {
+        const stocks = db.collection("stocks").doc(id)
+        stocks.get().then((doc) => {
+            if (doc.exists) {
+                stock.value = doc.data()
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+    }
+
+    const getStockTV = (id: string) => {
+        const stocks = db.collection("stocks").doc(id)
+        stocks.get().then((doc) => {
+            if (doc.exists) {
+                const data: any = doc.data()
+                const ticker = data.ticker
+                new TradingView.widget({
+                        "autosize": true,
+                        "symbol": ticker,
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "light",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "hide_top_toolbar": true,
+                        "save_image": false,
+                        "container_id": "tv"
+                    },
+                )
+                console.log("Initialized TV with ticker: ", ticker)
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+    }
+
+    const addStock = () => {
+        db.collection("stocks").add({
+            ticker: stock.value.ticker,
+            sector: stock.value.sector,
+            logo: stock.value.logo,
+            tradingView: stock.value.tradingView,
+            highLows: stock.value.highLows,
+            smaEma: stock.value.smaEma,
+            accum: stock.value.accum,
+            adx: stock.value.adx,
+            fwd: stock.value.fwd,
+            debtEquity: stock.value.debtEquity,
+            currentRatio: stock.value.currentRatio,
+            openInterest: stock.value.openInterest,
+            analysis: stock.value.analysis,
+            shortFloat: stock.value.shortFloat,
+            levels: stock.value.levels,
+            fibo: stock.value.fibo,
+            stoch: stock.value.stoch,
+            pattern: stock.value.pattern,
+            createdAt: ts
+        })
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((error: Error) => {
+            console.error("Error adding document: ", error);
+        });
+    }
+
+    const updateStock =  (id: string) => {
+        db.collection("stocks").doc(id).update(stock.value)
+    }
+
+    const deleteStock = (id: string) => {
+        db.collection("stocks").doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    }
+
+    const handleChange = (e: any) => {
+        // allowed file types
+        const types = ['image/png', 'image/jpeg']
+
+        // selected file
+        const selected = e.target.files[0]
+        console.log(selected)
+
+        if (selected && types.includes(selected.type)) {
+            file.value = selected
+            uploadImage(file.value)
+            // this.doc.imgName = selected.name
+        } else {
+            file.value = null
+        }
+    }
+    
+
+    const uploadImage = async (file: any) => {
+        const filePath = `icons/${file.name}`
+        const storageRef = storage.ref(filePath)
+
+        try {
+            const res = await storageRef.put(file)
+        //   this.doc.imgPath = filePath
+            stock.value.logo = await res.ref.getDownloadURL()
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    return { handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
+}
+
+export default stockFuncs

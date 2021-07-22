@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'ttnorms';
+    src: url('./assets/fonts/ttnorms-medium-webfont.woff');
+}
+
+@font-face {
+    font-family: 'benzin-semibold';
+    src: url('./assets/fonts/benzin-semibold-webfont.woff');
+}
+
+@font-face {
+    font-family: 'benzin-bold';
+    src: url('./assets/fonts/benzin_bold-webfont.woff');
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+body, html {
+    /*background-color: #190624;*/
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
