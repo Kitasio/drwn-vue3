@@ -38,7 +38,7 @@
                     </Listbox>
                 </div>
                 
-                <div class="hidden md:block">
+                <div class="hidden md:block overflow-scroll">
                     <tabs v-if="selectedStock" v-model="activeTab" :selectedStock="selectedStock.id">
                         <tab title="График" class="h-96">
                             <div v-if="width > 600" id="tv" class="w-full h-full"></div>
@@ -78,57 +78,59 @@
                         </tab>
                         <tab title="Фундаментальные показатели" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
-                            <div class="font-ttnorms divide-y divide-light-purple">
-                                <div class="flex justify-between py-3">
-                                    <div>fwd P/E</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.fwd.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.fwd.text }}</div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between py-3">
-                                    <div>Debt/equity</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.debtEquity.text }}</div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between py-3">
-                                    <div>Накопление</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.accum.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.accum.text }}</div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between py-3">
-                                    <div>Current ratio</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.currentRatio.text }}</div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between py-3">
-                                    <div>Open interest</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.openInterest.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.openInterest.text }}</div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between py-3">
-                                    <div>Analysis</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.analysis.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.analysis.text }}</div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between py-3">
-                                    <div>Short float</div>
-                                    <div class="flex space-x-1 items-center font-ttnorms">
-                                        <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="w-4 h-4 rounded-full"></div>
-                                        <div>{{ selectedStock.shortFloat.text }}</div>
-                                    </div>
-                                </div>
-                            </div> 
+                            <table class="table-fixed w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="w-1/3 text-left">Наименование</th>
+                                        <th class="w-1/3 text-left">Показатель</th>
+                                        <th class="w-1/3 text-left">Комментарий</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="w-full border-b">
+                                        <td class="py-3">fwd P/E</td>
+                                        <td class="flex py-3">
+                                            <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
+                                        </td>
+                                        <td>{{ selectedStock.fwd.comment }}</td>
+                                    </tr>
+                                    <tr class="w-full border-b">
+                                        <td class="py-3">Debt/ Equity</td>
+                                        <td class="flex py-3">
+                                            <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
+                                        </td>
+                                        <td>{{ selectedStock.debtEquity.comment }}</td>
+                                    </tr>
+                                    <tr class="w-full border-b">
+                                        <td class="py-3">Current ratio</td>
+                                        <td class="flex py-3">
+                                            <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
+                                        </td>
+                                        <td>{{ selectedStock.currentRatio.comment }}</td>
+                                    </tr>
+                                    <tr class="w-full border-b">
+                                        <td class="py-3">Open interest</td>
+                                        <td class="flex py-3">
+                                            <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
+                                        </td>
+                                        <td>{{ selectedStock.openInterest.comment }}</td>
+                                    </tr>
+                                    <tr class="w-full border-b">
+                                        <td class="py-3">Analysis</td>
+                                        <td class="flex py-3">
+                                            <div :style="`background-color: ${selectedStock.analysis.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysis.text }}</div>
+                                        </td>
+                                        <td>{{ selectedStock.analysis.comment }}</td>
+                                    </tr>
+                                    <tr class="w-full border-b">
+                                        <td class="py-3">Short float</td>
+                                        <td class="flex py-3">
+                                            <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
+                                        </td>
+                                        <td>{{ selectedStock.shortFloat.comment }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </tab>
                         <tab title="Тех. анализ" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
@@ -203,54 +205,47 @@
 
                    <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
                     <div class="font-ttnorms divide-y divide-light-purple">
-                        <div class="flex justify-between py-3">
-                            <div>fwd P/E</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.fwd.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.fwd.text }}</div>
+                        <div class="py-3">
+                            <div class="flex justify-between items-center pb-3">
+                                <div class="py-3">fwd P/E</div>
+                                <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
                             </div>
+                            <div>{{ selectedStock.fwd.comment }}</div>
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Debt/equity</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.debtEquity.text }}</div>
+                        <div class="py-3">
+                            <div class="flex justify-between items-center pb-3">
+                                <div class="py-3">Debt/ Equity</div>
+                                <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
                             </div>
+                            <div>{{ selectedStock.debtEquity.comment }}</div>
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Накопление</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.accum.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.accum.text }}</div>
+                        <div class="py-3">
+                            <div class="flex justify-between items-center pb-3">
+                                <div class="py-3">Current ratio</div>
+                                <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
                             </div>
+                            <div>{{ selectedStock.currentRatio.comment }}</div>
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Current ratio</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.currentRatio.text }}</div>
+                        <div class="py-3">
+                            <div class="flex justify-between items-center pb-3">
+                                <div class="py-3">Open interest</div>
+                                <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
                             </div>
+                            <div>{{ selectedStock.openInterest.comment }}</div>
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Open interest</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.openInterest.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.openInterest.text }}</div>
+                        <div class="py-3">
+                            <div class="flex justify-between items-center pb-3">
+                                <div class="py-3">Analysis</div>
+                                <div :style="`background-color: ${selectedStock.analysis.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysis.text }}</div>
                             </div>
+                            <div>{{ selectedStock.analysis.comment }}</div>
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Analysis</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.analysis.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.analysis.text }}</div>
+                        <div class="py-3">
+                            <div class="flex justify-between items-center pb-3">
+                                <div class="py-3">Short float</div>
+                                <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
                             </div>
-                        </div>
-                        <div class="flex justify-between py-3">
-                            <div>Short float</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.shortFloat.text }}</div>
-                            </div>
+                            <div>{{ selectedStock.shortFloat.comment }}</div>
                         </div>
                     </div> 
 
@@ -349,7 +344,9 @@ export default defineComponent({
         watch(selectedStock, () => {
             console.log(document.getElementById('tv'))
             if (!!document.getElementById('tv')) {
-                getStockTV(selectedStock.value.id)
+                if (route.name == 'Analytics') {
+                    getStockTV(selectedStock.value.id)
+                }
             }
         })
 

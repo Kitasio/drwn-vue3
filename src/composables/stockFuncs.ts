@@ -2,6 +2,11 @@ import { ref } from "vue"
 import { db, ts, storage } from "./fireConf"
 
 const stockFuncs = () => {
+    const suggestion = ref<any>({
+        stock: '',
+    })
+    const suggestions = ref<any>([])
+    const suggestionSent = ref<boolean>(false)
     const stocks = ref<any>([])
     const stock = ref<any>({
         ticker: '',
@@ -34,31 +39,37 @@ const stockFuncs = () => {
             color: '',
             text: '',
             num: 1,
+            comment: '',
         },
         debtEquity: {
             color: '',
             text: '',
             num: 1,
+            comment: '',
         },
         currentRatio: {
             color: '',
             text: '',
             num: 1,
+            comment: '',
         },
         openInterest: {
             color: '',
             text: '',
             num: 1,
+            comment: '',
         },
         analysis: {
             color: '',
             text: '',
             num: 1,
+            comment: '',
         },
         shortFloat: {
             color: '',
             text: '',
             num: 1,
+            comment: '',
         },
         levels: {
             color: '',
@@ -80,6 +91,18 @@ const stockFuncs = () => {
             text: '',
             num: 1,
         },
+        trendSum: {
+            color: '',
+            text: '',
+        },
+        techSum: {
+            color: '',
+            text: '',
+        },
+        fundSum: {
+            color: '',
+            text: '',
+        },
     })
 
     const file = ref(null)
@@ -87,6 +110,14 @@ const stockFuncs = () => {
     const getStocks = () => {
         db.collection("stocks").orderBy("createdAt", "desc").onSnapshot(item => {
             stocks.value = item.docs.map(doc => {
+                return { ...doc.data(), id: doc.id }
+            })
+        })
+    }
+
+    const getSuggestions = () => {
+        db.collection("suggestions").orderBy("createdAt", "desc").onSnapshot(item => {
+            suggestions.value = item.docs.map(doc => {
                 return { ...doc.data(), id: doc.id }
             })
         })
@@ -157,9 +188,26 @@ const stockFuncs = () => {
             fibo: stock.value.fibo,
             stoch: stock.value.stoch,
             pattern: stock.value.pattern,
+            trendSum: stock.value.trendSum,
+            fundSum: stock.value.fundSum,
+            techSum: stock.value.techSum,
             createdAt: ts
         })
         .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((error: Error) => {
+            console.error("Error adding document: ", error);
+        });
+    }
+
+    const addSuggestion = () => {
+        db.collection("suggestions").add({
+            stock: suggestion.value.stock,
+            createdAt: ts
+        })
+        .then((docRef) => {
+            suggestionSent.value = true
             console.log("Document written with ID: ", docRef.id);
         })
         .catch((error: Error) => {
@@ -210,7 +258,7 @@ const stockFuncs = () => {
         }
     }
 
-    return { handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
+    return { suggestions, suggestion, addSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
 }
 
 export default stockFuncs

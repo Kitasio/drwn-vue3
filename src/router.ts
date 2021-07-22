@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import { auth } from './composables/fireConf'
+
 import Review from './pages/Review.vue'
 import Home from './pages/Home.vue'
 import Education from './pages/Education.vue'
@@ -101,9 +101,14 @@ const router = createRouter({
 // const canAccess = async () => {
 //     return auth.currentUser
 // }
-// router.beforeEach(async (to, from) => {
-//     const user = await canAccess()
-//     if (to.name === 'Admin' && !user) return '/login'
-// })
+// const user = await canAccess()
+router.beforeEach((to, from, next) => {
+    auth.onAuthStateChanged(user => {
+        console.log(user)
+
+        if (to.name === 'Admin' && !user) next({ name: 'Login'})
+        else next()
+    })
+})
 
 export default router

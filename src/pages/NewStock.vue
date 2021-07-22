@@ -7,7 +7,7 @@
 
                 <tab class="font-ttnorms" title="Основное">
                     <div>Тикер</div>
-                    <input v-model="stock.ticker" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md ">
+                    <input v-model="stock.ticker" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
 
                     <div class="mt-5">
                         <div>Логотип</div>
@@ -16,20 +16,32 @@
 
                     <div class="mt-5">Сектор</div>
                     <Listbox v-model="selectedSector">
-                        <ListboxButton>{{ selectedSector.name }}</ListboxButton>
-                        <ListboxOptions>
-                            <ListboxOption
-                                v-for="(sector, i) in sectors"
-                                :key="i"
-                                :value="sector"
-                            >
-                                <div>{{ sector.name }}</div>
-                            </ListboxOption>
-                        </ListboxOptions>
+                        <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-72">
+                            <div class="flex justify-between">
+                                <div>{{ selectedSector.name }}</div>
+                                <img class="w-3" src="/img/icons/arrowDown.svg" alt="">
+                            </div>
+                        </ListboxButton>
+                        <transition
+                        enter-active-class="transition duration-100 ease-out"
+                        enter-from-class="transform scale-95 opacity-0"
+                        enter-to-class="transform scale-100 opacity-100"
+                        leave-active-class="transition duration-75 ease-out"
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0"
+                        >
+                            <ListboxOptions class="absolute mt-2 z-10 bg-white w-72 py-2 px-3 border-2 border-light-purple rounded-md">
+                                <ListboxOption
+                                    v-for="(sector, i) in sectors"
+                                    :key="i"
+                                    :value="sector"
+                                >
+                                    <div class="cursor-pointer py-1 text-gray-500 hover:text-black transition">{{ sector.name }}</div>
+                                </ListboxOption>
+                            </ListboxOptions>
+                        </transition>
                     </Listbox>
 
-                    <div class="mt-5">Trading view</div>
-                    <input v-model="stock.tradingView" type="text" class=" w-1/2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md ">
                 </tab>
 
                 <tab class="font-ttnorms" title="Тренд">
@@ -37,13 +49,21 @@
                         <div>
                             <div class="mb-3">Higs Lows</div>
                             <Listbox v-model="selectedHighLows">
-                                <ListboxButton>
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
                                     <div class="flex items-center space-x-3">
                                         <div :style="`background-color: ${selectedHighLows.color}`" class="w-5 h-5 rounded-full"></div>
                                         <div>{{ selectedHighLows.text }}</div>
                                     </div>
                                 </ListboxButton>
-                                <ListboxOptions class="space-y-2">
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
                                     <ListboxOption
                                         v-for="(trend, i) in trendOptions"
                                         :key="i"
@@ -55,19 +75,28 @@
                                         </div>
                                     </ListboxOption>
                                 </ListboxOptions>
+                                </transition>
                             </Listbox>
                         </div>
 
                         <div>
                             <div class="mb-3">Sma Ema</div>
                             <Listbox v-model="selectedSmaEma">
-                                <ListboxButton>
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
                                     <div class="flex items-center space-x-3">
                                         <div :style="`background-color: ${selectedSmaEma.color}`" class="w-5 h-5 rounded-full"></div>
                                         <div>{{ selectedSmaEma.text }}</div>
                                     </div>
                                 </ListboxButton>
-                                <ListboxOptions class="space-y-2">
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
                                     <ListboxOption
                                         v-for="(trend, i) in trendOptions"
                                         :key="i"
@@ -79,19 +108,28 @@
                                         </div>
                                     </ListboxOption>
                                 </ListboxOptions>
+                                </transition>
                             </Listbox>
                         </div>
 
                         <div>
                             <div class="mb-3">Accum/Dist</div>
                             <Listbox v-model="selectedAccum">
-                                <ListboxButton>
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
                                     <div class="flex items-center space-x-3">
                                         <div :style="`background-color: ${selectedAccum.color}`" class="w-5 h-5 rounded-full"></div>
                                         <div>{{ selectedAccum.text }}</div>
                                     </div>
                                 </ListboxButton>
-                                <ListboxOptions class="space-y-2">
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
                                     <ListboxOption
                                         v-for="(trend, i) in trendOptions"
                                         :key="i"
@@ -103,19 +141,28 @@
                                         </div>
                                     </ListboxOption>
                                 </ListboxOptions>
+                                </transition>
                             </Listbox>
                         </div>
 
                         <div>
                             <div class="mb-3">ADX</div>
                             <Listbox v-model="selectedAdx">
-                                <ListboxButton>
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
                                     <div class="flex items-center space-x-3">
                                         <div :style="`background-color: ${selectedAdx.color}`" class="w-5 h-5 rounded-full"></div>
                                         <div>{{ selectedAdx.text }}</div>
                                     </div>
                                 </ListboxButton>
-                                <ListboxOptions class="space-y-2">
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
                                     <ListboxOption
                                         v-for="(trend, i) in trendOptions"
                                         :key="i"
@@ -127,7 +174,20 @@
                                         </div>
                                     </ListboxOption>
                                 </ListboxOptions>
+                                </transition>
                             </Listbox>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div>В целом</div>
+                        <div>
+                            <input v-model="stock.trendSum.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                            <div class="flex w-full space-x-5 px-2 mt-2">
+                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.trendSum.color">
+                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.trendSum.color">
+                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.trendSum.color">
+                                <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.trendSum.color">
+                            </div>
                         </div>
                     </div>
                 </tab>
@@ -137,7 +197,8 @@
                         <div>
                             <div>fwd P/E24</div>
                             <div>
-                                <input v-model="stock.fwd.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.fwd.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.fwd.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
                                 <div class="flex w-full justify-between px-2 mt-2">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.fwd.color" @click="stock.fwd.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.fwd.color" @click="stock.fwd.num = 100">
@@ -151,6 +212,7 @@
                             <div>Debt/Equity</div>
                             <div>
                                 <input v-model="stock.debtEquity.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.debtEquity.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
                                 <div class="flex w-full justify-between px-2 mt-2">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 100">
@@ -164,6 +226,7 @@
                             <div>Current ratio</div>
                             <div>
                                 <input v-model="stock.currentRatio.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.currentRatio.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
                                 <div class="flex w-full justify-between px-2 mt-2">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 100">
@@ -177,6 +240,7 @@
                             <div>Open interest</div>
                             <div>
                                 <input v-model="stock.openInterest.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.openInterest.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
                                 <div class="flex w-full justify-between px-2 mt-2">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.openInterest.color" @click="stock.openInterest.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.openInterest.color" @click="stock.openInterest.num = 100">
@@ -190,6 +254,7 @@
                             <div>Analysis</div>
                             <div>
                                 <input v-model="stock.analysis.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.analysis.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
                                 <div class="flex w-full justify-between px-2 mt-2">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.analysis.color" @click="stock.analysis.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.analysis.color" @click="stock.analysis.num = 100">
@@ -203,12 +268,25 @@
                             <div>Short float</div>
                             <div>
                                 <input v-model="stock.shortFloat.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.shortFloat.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
                                 <div class="flex w-full justify-between px-2 mt-2">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 10">
                                     <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 0">
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div>В целом</div>
+                        <div>
+                            <input v-model="stock.fundSum.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                            <div class="flex w-full space-x-5 px-2 mt-2">
+                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.fundSum.color">
+                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.fundSum.color">
+                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.fundSum.color">
+                                <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.fundSum.color">
                             </div>
                         </div>
                     </div>
@@ -267,10 +345,22 @@
                             </div>
                         </div>
                    </div>
+                   <div class="mt-5">
+                        <div>В целом</div>
+                        <div>
+                            <input v-model="stock.techSum.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                            <div class="flex w-full space-x-5 px-2 mt-2">
+                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.techSum.color">
+                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.techSum.color">
+                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.techSum.color">
+                                <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.techSum.color">
+                            </div>
+                        </div>
+                    </div>
                 </tab>
             </tabs>
 
-        	<button class="mt-10 absolute bottom-10 right-10 hover: hover:border-white text-light-purple border-2 border-light-purple rounded-lg px-4 py-3" @click="addStock(); router.go(-1)">Сохранить</button>
+        	<button class="mt-10 absolute bottom-10 right-10 border-2 border-black rounded-md px-4 py-3" @click="addStock(); router.go(-1)">Сохранить</button>
         </div>
     </div>
 </template>
