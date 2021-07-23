@@ -16,6 +16,7 @@ import NewStock from './pages/NewStock.vue'
 import Login from './pages/Login.vue'
 import Client from './pages/Client.vue'
 import Analytics from './pages/Analytics.vue'
+import Calc from './pages/Calc.vue'
 const routes = [
     {
         path: '/',
@@ -93,6 +94,11 @@ const routes = [
         name: 'Analytics',
         component: Analytics,
     },
+    {
+        path: '/calc',
+        name: 'Calc',
+        component: Calc,
+    },
 ]
 
 const router = createRouter({
@@ -101,8 +107,6 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
     auth.onAuthStateChanged(user => {
-        console.log(user)
-
         if (to.name === 'Admin' && !user) next({ name: 'Login'})
         else next()
     })
