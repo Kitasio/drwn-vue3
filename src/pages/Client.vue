@@ -47,7 +47,7 @@
 
 		<div class="hidden md:grid grid-cols-4 h-5/6">
 			<stock-links></stock-links>
-			<div class="md:col-span-4 lg:col-span-3 shadow-brand rounded-md px-10">
+			<div class="md:col-span-4 lg:col-span-3 shadow-brand overflow-scroll rounded-md px-10">
 				<table class="table-auto my-5 border-b border-light-purple w-full">
 						<thead class="border-b border-light-purple">
 							<tr>

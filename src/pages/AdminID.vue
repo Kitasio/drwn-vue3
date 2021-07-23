@@ -179,17 +179,37 @@
                         </div>
                     </div>
                     <div class="mt-5">
-                        <div>В целом</div>
-                        <div>
-                            <input v-model="stock.trendSum.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                            <div class="flex w-full space-x-5 px-2 mt-2">
-                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.trendSum.color">
-                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.trendSum.color">
-                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.trendSum.color">
-                                <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.trendSum.color">
-                            </div>
+                        <div class="mb-3">В целом</div>
+                            <Listbox v-model="selectedTrendSum">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedTrendSum.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedTrendSum.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute z-10 mt-2 bg-white w-56 space-y-3 p-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in sums"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
                         </div>
-                    </div>
                 </tab>
 
                 <tab class="font-ttnorms" title="Фундаментальные показатели">
@@ -279,16 +299,36 @@
                         </div>
                     </div>
                     <div class="mt-5">
-                        <div>В целом</div>
-                        <div>
-                            <input v-model="stock.fundSum.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                            <div class="flex w-full space-x-5 px-2 mt-2">
-                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.fundSum.color">
-                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.fundSum.color">
-                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.fundSum.color">
-                                <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.fundSum.color">
-                            </div>
-                        </div>
+                        <div class="mb-3">В целом</div>
+                            <Listbox v-model="selectedFundSum">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedFundSum.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedFundSum.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute z-10 mt-2 bg-white w-56 space-y-3 p-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in sums"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
                     </div>
                 </tab>
                 <tab class="font-ttnorms" title="Тех. анализ">
@@ -346,16 +386,36 @@
                         </div>
                    </div>
                    <div class="mt-5">
-                        <div>В целом</div>
-                        <div>
-                            <input v-model="stock.techSum.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                            <div class="flex w-full space-x-5 px-2 mt-2">
-                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.techSum.color">
-                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.techSum.color">
-                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.techSum.color">
-                                <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.techSum.color">
-                            </div>
-                        </div>
+                        <div class="mb-3">В целом</div>
+                            <Listbox v-model="selectedTechSum">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedTechSum.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedTechSum.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute z-10 mt-2 bg-white w-56 space-y-3 p-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in sums"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
                     </div>
                 </tab>
             </tabs>
@@ -401,20 +461,32 @@ export default defineComponent({
                 { color: '#FBBC05', text: 'Зона риска', num: 10 },
                 { color: '#AD92B7', text: 'Флэт', num: 0 },
         ] 
+
+        const sums = [
+            { color: '#00FF4A', text: 'В норме' },
+            { color: '#FBBC05', text: 'Внимание' },
+            { color: '#FF005C', text: 'Угроза' },
+        ]
         
         const selectedSector = ref<any>(sectors[0])
         const selectedHighLows = ref<any>(trendOptions[0])
         const selectedSmaEma = ref<any>(trendOptions[0])
         const selectedAccum = ref<any>(trendOptions[0])
         const selectedAdx = ref<any>(trendOptions[0])
+        const selectedTrendSum = ref<any>(sums[0])
+        const selectedTechSum = ref<any>(sums[0])
+        const selectedFundSum = ref<any>(sums[0])
         const trendParams = ref<any>([selectedHighLows, selectedSmaEma, selectedAccum, selectedAdx])
 
-        watch([selectedSector, selectedHighLows, selectedSmaEma, selectedAccum, selectedAdx], () => {
+        watch([selectedSector, selectedHighLows, selectedSmaEma, selectedAccum, selectedAdx, selectedTrendSum, selectedTechSum, selectedFundSum], () => {
             stock.value.sector = selectedSector.value
             stock.value.highLows = selectedHighLows.value
             stock.value.smaEma = selectedSmaEma.value
             stock.value.accum = selectedAccum.value
             stock.value.adx = selectedAdx.value
+            stock.value.trendSum = selectedTrendSum
+            stock.value.techSum = selectedTechSum
+            stock.value.fundSum = selectedFundSum
         })
 
         watchEffect(() => {
@@ -423,15 +495,22 @@ export default defineComponent({
             selectedSmaEma.value = stock.value.smaEma
             selectedAccum.value = stock.value.accum
             selectedAdx.value = stock.value.adx
+            selectedTrendSum.value = stock.value.trendSum
+            selectedTechSum.value = stock.value.techSum
+            selectedFundSum.value = stock.value.fundSum
         })
 
         getStock(route.params.id.toString())
 
         return {
+            selectedTrendSum,
+            selectedTechSum,
+            selectedFundSum,
             selectedHighLows,
             selectedSmaEma,
             selectedAccum,
             selectedAdx,
+            sums,
             trendOptions,
             trendParams,
             sectors, 

@@ -122,12 +122,25 @@
                     <router-link to="/admin/newStock" class="text-md font-benzin-semibold text-gray-400 hover:text-black transition duration-200">+ Добавить акцию</router-link>
                 </tab>
                 <tab title="Запросы">
-                    <div v-for="item in suggestions" :key="item.id">
-                        <div class="flex space-x-10">
-                            <div>{{ item.stock }}</div>
-                            <div>{{ getDate(item.createdAt.seconds) }}</div>
-                        </div>
-                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Время</th>
+                                <th class="text-left">Запрос</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in suggestions" :key="item.id">
+                                <td class="pr-10">{{ getDate(item.createdAt.seconds) }}</td>
+                                <td class="pr-10">{{ item.stock }}</td>
+                                <td @click="deleteSuggestion(item.id)" class="text-base-red cursor-pointer text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </tab>
             </tabs>
             
@@ -148,7 +161,7 @@ export default defineComponent({
     setup() {
         const activeTab = ref(0)
         const router = useRouter()
-        const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions } = stockFuncs()
+        const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions, deleteSuggestion } = stockFuncs()
         getStocks()
         getSuggestions()
 
@@ -158,7 +171,7 @@ export default defineComponent({
         }
 
         const getDate = (unix: any) => {
-            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
             let date = new Date(unix * 1000).toLocaleDateString('ru-RU', options)
             return date
         }
@@ -187,7 +200,7 @@ export default defineComponent({
             '',
         ])
 
-        return { router, getDate, suggestions, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
+        return { router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
     },
 })
 </script>

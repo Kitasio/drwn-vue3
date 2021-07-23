@@ -207,8 +207,11 @@ const stockFuncs = () => {
             createdAt: ts
         })
         .then((docRef) => {
-            suggestionSent.value = true
             console.log("Document written with ID: ", docRef.id);
+            suggestionSent.value = true
+            setTimeout(() => {
+               suggestionSent.value = false 
+            }, 2000);
         })
         .catch((error: Error) => {
             console.error("Error adding document: ", error);
@@ -221,6 +224,14 @@ const stockFuncs = () => {
 
     const deleteStock = (id: string) => {
         db.collection("stocks").doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    }
+
+    const deleteSuggestion = (id: string) => {
+        db.collection("suggestions").doc(id).delete().then(() => {
             console.log("Document successfully deleted!");
         }).catch((error) => {
             console.error("Error removing document: ", error);
@@ -258,7 +269,7 @@ const stockFuncs = () => {
         }
     }
 
-    return { suggestions, suggestion, addSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
+    return { suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
 }
 
 export default stockFuncs
