@@ -19,6 +19,7 @@ import Analytics from './pages/Analytics.vue'
 const routes = [
     {
         path: '/',
+        redirect: '/client',
         name: 'Home',
         component: Home,
     },
@@ -98,10 +99,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 })
-// const canAccess = async () => {
-//     return auth.currentUser
-// }
-// const user = await canAccess()
 router.beforeEach((to, from, next) => {
     auth.onAuthStateChanged(user => {
         console.log(user)
