@@ -9,27 +9,27 @@
                     <div class="flex items-end justify-between">
                         <div class="text-lg ">Баланс аккаунта</div>
                         <div class="flex items-center">
-                            <input v-model="params.balance" type="text" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
+                            <input v-model.number="params.balance" type="number" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
                             $
                         </div>
                     </div>
                     <div class="flex items-end justify-between">
                         <div class="text-lg align-bottom">Риск на сделку</div>
                         <div class="flex items-center">
-                            <input v-model="params.risk" type="text" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
+                            <input v-model.number="params.risk" type="number" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
                             %
                         </div>
                     </div>
                     <div class="flex items-end justify-between">
                         <div class="text-lg align-bottom">Точка входа</div>
                         <div class="flex items-center">
-                            <input v-model="params.entry" type="text" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
+                            <input v-model.number="params.entry" type="number" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
                         </div>
                     </div>
                     <div class="flex items-end justify-between">
                         <div class="text-lg align-bottom">Стоп лосс</div>
                         <div class="flex items-center">
-                            <input v-model="params.stop" type="text" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
+                            <input v-model.number="params.stop" type="number" class="mt-0 block px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black">
                         </div>
                     </div>
                 </div>

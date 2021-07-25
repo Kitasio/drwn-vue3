@@ -43,9 +43,9 @@
                         <tab title="График" class="h-96">
                             <div v-if="width > 600" id="tv" class="w-full h-full"></div>
                         </tab>
-                        <tab title="Тренд" class="h-96">
+                        <tab title="Алерты тренда" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Признаки тренда</h1>
-                            <div class="font-ttnorms divide-y divide-light-purple">
+                            <div class="font-ttnorms divide-y divide-light-purple 2xl:w-1/2">
                                 <div class="flex justify-between py-3">
                                     <div>Максимум и минимум</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab title="Фундаментальные показатели" class="h-96">
+                        <tab title="Алерты Фундаментальный" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
                             <table class="table-fixed w-full">
                                 <thead>
@@ -132,9 +132,9 @@
                                 </tbody>
                             </table>
                         </tab>
-                        <tab title="Тех. анализ" class="h-96">
+                        <tab title="Алерты Теханализ" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
-                            <div class="font-ttnorms divide-y divide-light-purple">
+                            <div class="font-ttnorms divide-y divide-light-purple 2xl:w-1/2">
                                 <div class="flex justify-between py-3">
                                     <div>Уровни</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
