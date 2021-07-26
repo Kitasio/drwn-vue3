@@ -253,9 +253,9 @@ const stockFuncs = () => {
         const params = Object.fromEntries(urlSearchParams.entries());
         if (Object.keys(params).length !== 0) {
             db.collection("tgVisitors").add({
-                userid: params.userid,
-                name: params.name,
-                usernik: params.usernik,
+                userid: params.userid || 'empty',
+                name: params.name || 'empty',
+                usernik: params.usernik || 'empty',
                 createdAt: ts,
             })
             .then((docRef) => {
