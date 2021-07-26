@@ -43,11 +43,11 @@
                         <tab title="График" class="h-96">
                             <div v-if="width > 600" id="tv" class="w-full h-full"></div>
                         </tab>
-                        <tab title="Алерты тренда" class="h-96">
+                        <tab title="Признаки тренда" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Признаки тренда</h1>
                             <div class="font-ttnorms divide-y divide-light-purple 2xl:w-1/2">
                                 <div class="flex justify-between py-3">
-                                    <div>Максимум и минимум</div>
+                                    <div>Максимумы и минимумы волн роста</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
                                         <div :style="`background-color: ${selectedStock.highLows.color}`" class="w-4 h-4 rounded-full"></div>
                                         <div>{{ selectedStock.highLows.text }}</div>
@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-between py-3">
-                                    <div>Накопление</div>
+                                    <div>Накопление позиции инвесторами или ее снижение</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
                                         <div :style="`background-color: ${selectedStock.accum.color}`" class="w-4 h-4 rounded-full"></div>
                                         <div>{{ selectedStock.accum.text }}</div>
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab title="Алерты Фундаментальный" class="h-96">
+                        <tab title="Фундаментальные показатели" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
                             <table class="table-fixed w-full">
                                 <thead>
@@ -88,42 +88,42 @@
                                 </thead>
                                 <tbody>
                                     <tr class="w-full border-b">
-                                        <td class="py-3">fwd P/E</td>
+                                        <td class="py-3">Цена к ожидаемой в 2024 году прибыли</td>
                                         <td class="flex py-3">
                                             <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
                                         </td>
                                         <td>{{ selectedStock.fwd.comment }}</td>
                                     </tr>
                                     <tr class="w-full border-b">
-                                        <td class="py-3">Debt/ Equity</td>
+                                        <td class="py-3">Отношение долга к собственному капиталу</td>
                                         <td class="flex py-3">
                                             <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
                                         </td>
                                         <td>{{ selectedStock.debtEquity.comment }}</td>
                                     </tr>
                                     <tr class="w-full border-b">
-                                        <td class="py-3">Current ratio</td>
+                                        <td class="py-3">Коэффициент текущей ликвидности: покрытие текущих (до года) обязательств текущими активами</td>
                                         <td class="flex py-3">
                                             <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
                                         </td>
                                         <td>{{ selectedStock.currentRatio.comment }}</td>
                                     </tr>
                                     <tr class="w-full border-b">
-                                        <td class="py-3">Open interest</td>
+                                        <td class="py-3">Поведение опционов - на какой цене самые крупные ставки</td>
                                         <td class="flex py-3">
                                             <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
                                         </td>
                                         <td>{{ selectedStock.openInterest.comment }}</td>
                                     </tr>
                                     <tr class="w-full border-b">
-                                        <td class="py-3">Analysis</td>
+                                        <td class="py-3">Рейтинги аналитиков</td>
                                         <td class="flex py-3">
                                             <div :style="`background-color: ${selectedStock.analysis.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysis.text }}</div>
                                         </td>
                                         <td>{{ selectedStock.analysis.comment }}</td>
                                     </tr>
                                     <tr class="w-full border-b">
-                                        <td class="py-3">Short float</td>
+                                        <td class="py-3">Доля акций, которые находятся в короткой (ставка на падение) позиции</td>
                                         <td class="flex py-3">
                                             <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
                                         </td>
@@ -132,32 +132,32 @@
                                 </tbody>
                             </table>
                         </tab>
-                        <tab title="Алерты Теханализ" class="h-96">
+                        <tab title="Технический анализ" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
                             <div class="font-ttnorms divide-y divide-light-purple 2xl:w-1/2">
                                 <div class="flex justify-between py-3">
-                                    <div>Уровни</div>
+                                    <div>Исторические уровни, на которых цена находила поддержку/сопротивление</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
                                         <div :style="`background-color: ${selectedStock.levels.color}`" class="w-4 h-4 rounded-full"></div>
                                         <div>{{ selectedStock.levels.text }}</div>
                                     </div>
                                 </div>
                                 <div class="flex justify-between py-3">
-                                    <div>Fibo</div>
+                                    <div>Уровень Фибоначчи, который выступает поддержкой или сопротивлением</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
                                         <div :style="`background-color: ${selectedStock.fibo.color}`" class="w-4 h-4 rounded-full"></div>
                                         <div>{{ selectedStock.fibo.text }}</div>
                                     </div>
                                 </div>
                                 <div class="flex justify-between py-3">
-                                    <div>Stoch</div>
+                                    <div>Показатели перекупленности/перепроданности по осциллятору Stochastic</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
                                         <div :style="`background-color: ${selectedStock.stoch.color}`" class="w-4 h-4 rounded-full"></div>
                                         <div>{{ selectedStock.stoch.text }}</div>
                                     </div>
                                 </div>
                                 <div class="flex justify-between py-3">
-                                    <div>Pattern</div>
+                                    <div>Свечной паттерн</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
                                         <div :style="`background-color: ${selectedStock.pattern.color}`" class="w-4 h-4 rounded-full"></div>
                                         <div>{{ selectedStock.pattern.text }}</div>
@@ -174,31 +174,33 @@
                     <h1 class="font-benzin-bold text-xl my-5">Признаки тренда</h1>
                     <div class="font-ttnorms divide-y divide-light-purple">
                         <div class="flex justify-between py-3">
-                            <div>Максимум и минимум</div>
+                            <div>Максимумы и минимумы волн роста</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
                                 <div :style="`background-color: ${selectedStock.highLows.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.highLows.text }}</div>
+                                <div class="whitespace-nowrap">{{ selectedStock.highLows.text }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between py-3">
                             <div>Положение относительно скользящих средних</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.smaEma.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.smaEma.text }}</div>
+                                <svg class="w-4 h-4" :fill="selectedStock.smaEma.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50"/>
+                                </svg>
+                                <div class="whitespace-nowrap">{{ selectedStock.smaEma.text }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between py-3">
-                            <div>Накопление</div>
+                            <div>Накопление позиции инвесторами или ее снижение</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
                                 <div :style="`background-color: ${selectedStock.accum.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.accum.text }}</div>
+                                <div class="whitespace-nowrap">{{ selectedStock.accum.text }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between py-3">
                             <div>Сила тренда</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
                                 <div :style="`background-color: ${selectedStock.adx.color}`" class="w-4 h-4 rounded-full"></div>
-                                <div>{{ selectedStock.adx.text }}</div>
+                                <div class="whitespace-nowrap">{{ selectedStock.adx.text }}</div>
                             </div>
                         </div>
                     </div>
@@ -207,42 +209,42 @@
                     <div class="font-ttnorms divide-y divide-light-purple">
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
-                                <div class="py-3">fwd P/E</div>
+                                <div class="py-3">Цена к ожидаемой в 2024 году прибыли</div>
                                 <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
                             </div>
                             <div>{{ selectedStock.fwd.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
-                                <div class="py-3">Debt/ Equity</div>
+                                <div class="py-3">Отношение долга к собственному капиталу</div>
                                 <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
                             </div>
                             <div>{{ selectedStock.debtEquity.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
-                                <div class="py-3">Current ratio</div>
+                                <div class="py-3">Коэффициент текущей ликвидности: покрытие текущих (до года) обязательств текущими активами</div>
                                 <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
                             </div>
                             <div>{{ selectedStock.currentRatio.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
-                                <div class="py-3">Open interest</div>
+                                <div class="py-3">Поведение опционов - на какой цене самые крупные ставки</div>
                                 <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
                             </div>
                             <div>{{ selectedStock.openInterest.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
-                                <div class="py-3">Analysis</div>
+                                <div class="py-3">Рейтинги аналитиков</div>
                                 <div :style="`background-color: ${selectedStock.analysis.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysis.text }}</div>
                             </div>
                             <div>{{ selectedStock.analysis.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
-                                <div class="py-3">Short float</div>
+                                <div class="py-3">Доля акций, которые находятся в короткой (ставка на падение) позиции</div>
                                 <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
                             </div>
                             <div>{{ selectedStock.shortFloat.comment }}</div>
@@ -252,30 +254,38 @@
                    <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
                     <div class="font-ttnorms divide-y divide-light-purple">
                         <div class="flex justify-between py-3">
-                            <div>Уровни</div>
+                            <div>Исторические уровни, на которых цена находила поддержку/сопротивление</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.levels.color}`" class="w-4 h-4 rounded-full"></div>
+                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.levels.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50"/>
+                                </svg>
                                 <div>{{ selectedStock.levels.text }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between py-3">
-                            <div>Fibo</div>
+                            <div>Уровень Фибоначчи, который выступает поддержкой или сопротивлением</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.fibo.color}`" class="w-4 h-4 rounded-full"></div>
+                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.fibo.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50"/>
+                                </svg>
                                 <div>{{ selectedStock.fibo.text }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between py-3">
-                            <div>Stoch</div>
+                            <div>Показатели перекупленности/ перепроданности по осциллятору Stochastic</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.stoch.color}`" class="w-4 h-4 rounded-full"></div>
+                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.stoch.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50"/>
+                                </svg>
                                 <div>{{ selectedStock.stoch.text }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between py-3">
-                            <div>Pattern</div>
+                            <div>Свечной паттерн</div>
                             <div class="flex space-x-1 items-center font-ttnorms">
-                                <div :style="`background-color: ${selectedStock.pattern.color}`" class="w-4 h-4 rounded-full"></div>
+                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.pattern.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50"/>
+                                </svg>
                                 <div>{{ selectedStock.pattern.text }}</div>
                             </div>
                         </div>
@@ -316,7 +326,7 @@ export default defineComponent({
 	setup() {
         const { width, type } = useBreakpoints()
         const route = useRoute()
-        const { stocks, stock, getStocks, getStockTV } = stockFuncs()
+        const { stocks, stock, getStocks, getStockTV, embedChart } = stockFuncs()
         getStocks()
         const activeTab = ref(0)
 
@@ -330,12 +340,14 @@ export default defineComponent({
                     })
                     selectedStock.value = myStock[0]
                     if (route.name == 'Analytics') {
-                        getStockTV(myStock[0].id)
+                        // getStockTV(myStock[0].id)
+                        embedChart(myStock[0].id)
                     }
                 } else {
                     selectedStock.value = stocks.value[0]
                     if (route.name == 'Analytics') {
-                        getStockTV(stocks.value[0].id)
+                        // getStockTV(stocks.value[0].id)
+                        embedChart(stocks.value[0].id)
                     }
                 }
             } catch (error) {}
@@ -345,7 +357,8 @@ export default defineComponent({
             console.log(document.getElementById('tv'))
             if (!!document.getElementById('tv')) {
                 if (route.name == 'Analytics') {
-                    getStockTV(selectedStock.value.id)
+                    // getStockTV(selectedStock.value.id)
+                    embedChart(selectedStock.value.id)
                 }
             }
         })
@@ -364,6 +377,7 @@ export default defineComponent({
             activeTab,
             width,
             type,
+            embedChart,
         }
 	},
 })

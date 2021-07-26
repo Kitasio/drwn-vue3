@@ -137,6 +137,27 @@ const stockFuncs = () => {
         });
     }
 
+    const embedChart = (id: string) => {
+        const stocks = db.collection("stocks").doc(id)
+        stocks.get().then((doc) => {
+            if (doc.exists) {
+                const data: any = doc.data()
+                const tvid = data.tradingView
+                new TradingView.chart({
+                    "chart": tvid,
+                    "container_id": "tv",
+                    "autosize": true,
+                })
+
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+    }
+
     const getStockTV = (id: string) => {
         const stocks = db.collection("stocks").doc(id)
         stocks.get().then((doc) => {
@@ -269,7 +290,7 @@ const stockFuncs = () => {
         }
     }
 
-    return { suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
+    return { embedChart, suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
 }
 
 export default stockFuncs

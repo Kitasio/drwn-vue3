@@ -14,6 +14,9 @@
                         <input @change="handleChange" class="mb-5" name="image" type="file" placeholder="Картинка">
                     </div>
 
+                    <div>Trading View ID</div>
+                    <input v-model="stock.tradingView" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+
                     <div class="mt-5">Сектор</div>
                     <Listbox v-model="selectedSector">
                         <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-72">

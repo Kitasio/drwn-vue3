@@ -14,10 +14,10 @@ export default {
     },
     emits: ["update:modelValue"],
     setup(props, { slots, emit }) {
-        const { getStockTV } = stockFuncs()
+        const { embedChart } = stockFuncs()
         const getStockForTab = (tab) => {
             if (tab == 'График') {
-                getStockTV(props.selectedStock)
+                embedChart(props.selectedStock)
             }
         }
         const active = computed(() => props.modelValue);
