@@ -2,6 +2,7 @@ import { ref } from "vue"
 import { db, ts, storage } from "./fireConf"
 
 const stockFuncs = () => {
+    const tgVisitors = ref<any>([])
     const suggestion = ref<any>({
         stock: '',
     })
@@ -123,6 +124,14 @@ const stockFuncs = () => {
         })
     }
 
+    const getTgVisitors = () => {
+        db.collection("tgVisitors").orderBy("createdAt", "desc").onSnapshot(item => {
+            tgVisitors.value = item.docs.map(doc => {
+                return { ...doc.data(), id: doc.id }
+            })
+        })
+    }
+
     const getStock = (id: string) => {
         const stocks = db.collection("stocks").doc(id)
         stocks.get().then((doc) => {
@@ -239,6 +248,26 @@ const stockFuncs = () => {
         });
     }
 
+    const addTgVisitor = () => {
+        const urlSearchParams: any = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        if (Object.keys(params).length !== 0) {
+            db.collection("tgVisitors").add({
+                userid: params.userid,
+                name: params.name,
+                usernik: params.usernik,
+                createdAt: ts,
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error: Error) => {
+                console.error("Error adding document: ", error);
+            });
+        }
+        
+    }
+
     const updateStock =  (id: string) => {
         db.collection("stocks").doc(id).update(stock.value)
     }
@@ -253,6 +282,14 @@ const stockFuncs = () => {
 
     const deleteSuggestion = (id: string) => {
         db.collection("suggestions").doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    }
+
+    const deleteTgVisitor = (id: string) => {
+        db.collection("tgVisitors").doc(id).delete().then(() => {
             console.log("Document successfully deleted!");
         }).catch((error) => {
             console.error("Error removing document: ", error);
@@ -290,7 +327,7 @@ const stockFuncs = () => {
         }
     }
 
-    return { embedChart, suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
+    return { getTgVisitors, addTgVisitor, deleteTgVisitor, tgVisitors, embedChart, suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
 }
 
 export default stockFuncs

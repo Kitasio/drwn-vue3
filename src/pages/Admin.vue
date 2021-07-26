@@ -142,6 +142,31 @@
                         </tbody>
                     </table>
                 </tab>
+                <tab title="Телеграм посетители">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Время</th>
+                                <th class="text-left">ID</th>
+                                <th class="text-left">Name</th>
+                                <th class="text-left">UserNik</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in tgVisitors" :key="item.id">
+                                <td class="pr-10">{{ getDate(item.createdAt.seconds) }}</td>
+                                <td class="pr-10">{{ item.userid }}</td>
+                                <td class="pr-10">{{ item.name }}</td>
+                                <td class="pr-10">{{ item.usernik }}</td>
+                                <td @click="deleteSuggestion(item.id)" class="text-base-red cursor-pointer text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tab>
             </tabs>
             
         </div>
@@ -161,9 +186,10 @@ export default defineComponent({
     setup() {
         const activeTab = ref(0)
         const router = useRouter()
-        const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions, deleteSuggestion } = stockFuncs()
+        const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions, deleteSuggestion, tgVisitors, deleteTgVisitor, getTgVisitors } = stockFuncs()
         getStocks()
         getSuggestions()
+        getTgVisitors()
 
         const logout = () => {
             auth.signOut()
@@ -200,7 +226,7 @@ export default defineComponent({
             '',
         ])
 
-        return { router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
+        return { tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
     },
 })
 </script>

@@ -105,17 +105,21 @@
 <script lang="ts">
 import stockFuncs from '../composables/stockFuncs'
 import { useRouter } from 'vue-router'
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, onMounted } from 'vue'
 import StockLinks from '../components/StockLinks.vue'
 import StockNav from '../components/StockNav.vue'
 
 export default defineComponent({
   components: { StockLinks, StockNav },
 	setup() {
-        const { stocks, stock, getStocks, addSuggestion, suggestion, suggestionSent } = stockFuncs()
+        const { stocks, stock, getStocks, addSuggestion, suggestion, suggestionSent, addTgVisitor } = stockFuncs()
         getStocks()
 
 		const info = ref(['', 'Тикер', 'Сектор', 'Тренд', 'Тех. анализ', 'Фундаментальный анализ'])
+
+		onMounted(() => {
+			addTgVisitor()
+		})
 
         return {
         	stocks,
