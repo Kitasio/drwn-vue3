@@ -185,6 +185,10 @@ const stockFuncs = () => {
                         "enable_publishing": false,
                         "hide_top_toolbar": true,
                         "save_image": false,
+                        "studies": [
+                            "MAExp@tv-basicstudies",
+                            "Stochastic@tv-basicstudies",
+                        ],
                         "container_id": "tv"
                     },
                 )

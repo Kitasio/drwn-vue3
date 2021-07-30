@@ -39,13 +39,13 @@
                 </div>
                 
                 <div class="hidden md:block overflow-scroll">
-                    <tabs v-if="selectedStock" v-model="activeTab" :selectedStock="selectedStock.id">
-                        <tab title="График" class="h-96">
+                    <tabs v-if="selectedStock" v-model="activeTab" :selectedStock="selectedStock.id" class="">
+                        <tab title="График" class="h-96 2xl:h-135">
                             <div v-if="width > 600" id="tv" class="w-full h-full"></div>
                         </tab>
                         <tab title="Признаки тренда" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Признаки тренда</h1>
-                            <div class="font-ttnorms divide-y divide-light-purple 2xl:w-1/2">
+                            <div class="font-ttnorms divide-y divide-light-purple 2xl:w-8/12">
                                 <div class="flex justify-between py-3">
                                     <div>Максимумы и минимумы волн роста</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
@@ -134,7 +134,7 @@
                         </tab>
                         <tab title="Технический анализ" class="h-96">
                             <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
-                            <div class="font-ttnorms divide-y divide-light-purple 2xl:w-1/2">
+                            <div class="font-ttnorms divide-y divide-light-purple 2xl:w-8/12">
                                 <div class="flex justify-between py-3">
                                     <div>Исторические уровни, на которых цена находила поддержку/сопротивление</div>
                                     <div class="flex space-x-1 items-center font-ttnorms">
@@ -340,14 +340,14 @@ export default defineComponent({
                     })
                     selectedStock.value = myStock[0]
                     if (route.name == 'Analytics') {
-                        // getStockTV(myStock[0].id)
-                        embedChart(myStock[0].id)
+                        getStockTV(myStock[0].id)
+                        // embedChart(myStock[0].id)
                     }
                 } else {
                     selectedStock.value = stocks.value[0]
                     if (route.name == 'Analytics') {
-                        // getStockTV(stocks.value[0].id)
-                        embedChart(stocks.value[0].id)
+                        getStockTV(stocks.value[0].id)
+                        // embedChart(stocks.value[0].id)
                     }
                 }
             } catch (error) {}
@@ -357,8 +357,8 @@ export default defineComponent({
             console.log(document.getElementById('tv'))
             if (!!document.getElementById('tv')) {
                 if (route.name == 'Analytics') {
-                    // getStockTV(selectedStock.value.id)
-                    embedChart(selectedStock.value.id)
+                    getStockTV(selectedStock.value.id)
+                    // embedChart(selectedStock.value.id)
                 }
             }
         })
