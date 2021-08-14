@@ -4,6 +4,7 @@ import 'firebase/auth'
 import 'firebase/storage'
 import 'firebase/analytics'
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBW06MDQSedzP7p1XelabYRfj-FyNHv7qE",
     authDomain: "drwn-land.firebaseapp.com",
@@ -17,6 +18,7 @@ const firebaseConfig = {
 
 // init firebase
 firebase.initializeApp(firebaseConfig)
+firebase.analytics()
 
 const db = firebase.firestore()
 const auth = firebase.auth()

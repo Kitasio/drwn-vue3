@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full mt-5 lg:mt-2 col-span-4 h-10 row-start-2 lg:row-start-1 lg:col-span-1 flex justify-between lg:flex-col text-xl lg:space-y-10">
+    <div class="w-full mt-5 lg:mt-2 col-span-4 h-10 row-start-2 lg:row-start-1 lg:col-span-2 flex justify-between lg:flex-col text-xl lg:space-y-10">
         <router-link v-for="(link, index) in links" :key="index" :to="{name: link.link }" class="flex space-x-3" v-slot="{ isActive }">
             <div class="img" v-html="link.icon" :class="[isActive && 'text-black']"></div>
             <div class="text opacity-60 hover:opacity-100 transition duration-150" :class="[isActive && 'opacity-100']">{{ link.name }}</div>

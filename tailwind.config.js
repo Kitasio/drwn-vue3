@@ -22,6 +22,8 @@ module.exports = {
         'deep-purple': '#190624',
         'base-purple': '#2A1437',
         'light-purple': '#ad92b7',
+        'purple': '#AD00FF',
+        'deep-green': '#34A853',
         'base-green': '#00ff4a',
         'base-red': '#FF005C',
         'base-yellow': '#FBBC05',

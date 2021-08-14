@@ -2,6 +2,10 @@ import { ref } from "vue"
 import { db, ts, storage } from "./fireConf"
 
 const stockFuncs = () => {
+    const feature = ref<any>({
+        text: '',
+    })
+    const features = ref<any>([])
     const tgVisitors = ref<any>([])
     const suggestion = ref<any>({
         stock: '',
@@ -13,6 +17,12 @@ const stockFuncs = () => {
         ticker: '',
         sector: {
             name: '',
+            color: '',
+        },
+        recommendation: {
+            text: '',
+            comment: '',
+            show: false,
         },
         logo: '',
         tradingView: '',
@@ -54,19 +64,30 @@ const stockFuncs = () => {
             num: 1,
             comment: '',
         },
-        openInterest: {
+        peg: {
+            color: '',
+            text: '',
+            comment: '',
+        },
+        growth: {
             color: '',
             text: '',
             num: 1,
             comment: '',
         },
-        analysis: {
+        competition: {
             color: '',
             text: '',
             num: 1,
             comment: '',
         },
-        shortFloat: {
+        priceGrowth: {
+            color: '',
+            text: '',
+            num: 1,
+            comment: '',
+        },
+        report: {
             color: '',
             text: '',
             num: 1,
@@ -104,6 +125,32 @@ const stockFuncs = () => {
             color: '',
             text: '',
         },
+        contextSum: {
+            color: '',
+            text: '',
+        },
+        minmax: {
+            color: '',
+            text: '',
+        },
+        sliders: {
+            color: '',
+            text: '',
+        },
+        nakopleniye: {
+            color: '',
+            text: '',
+        },
+        trendPower: {
+            color: '',
+            text: '',
+        },
+        dynamics: {
+            color: '',
+            text: '',
+        },
+        scenarios: [],
+        news: [],
     })
 
     const file = ref(null)
@@ -130,6 +177,14 @@ const stockFuncs = () => {
                 return { ...doc.data(), id: doc.id }
             })
         })
+    }
+
+    const getFeatures = () => {
+        db.collection("features").orderBy("createdAt", "desc").onSnapshot(item => {
+            features.value = item.docs.map(doc => {
+                return { ...doc.data(), id: doc.id }
+            })
+        }) 
     }
 
     const getStock = (id: string) => {
@@ -189,7 +244,7 @@ const stockFuncs = () => {
                             "MAExp@tv-basicstudies",
                             "Stochastic@tv-basicstudies",
                         ],
-                        "container_id": "tv"
+                        "container_id": "tv",
                     },
                 )
                 console.log("Initialized TV with ticker: ", ticker)
@@ -206,6 +261,7 @@ const stockFuncs = () => {
         db.collection("stocks").add({
             ticker: stock.value.ticker,
             sector: stock.value.sector,
+            recommendation: stock.value.recommendation,
             logo: stock.value.logo,
             tradingView: stock.value.tradingView,
             highLows: stock.value.highLows,
@@ -215,9 +271,11 @@ const stockFuncs = () => {
             fwd: stock.value.fwd,
             debtEquity: stock.value.debtEquity,
             currentRatio: stock.value.currentRatio,
-            openInterest: stock.value.openInterest,
-            analysis: stock.value.analysis,
-            shortFloat: stock.value.shortFloat,
+            peg: stock.value.peg,
+            growth: stock.value.growth,
+            competition: stock.value.competition,
+            priceGrowth: stock.value.priceGrowth,
+            report: stock.value.report,
             levels: stock.value.levels,
             fibo: stock.value.fibo,
             stoch: stock.value.stoch,
@@ -225,6 +283,14 @@ const stockFuncs = () => {
             trendSum: stock.value.trendSum,
             fundSum: stock.value.fundSum,
             techSum: stock.value.techSum,
+            contextSum: stock.value.contextSum,
+            scenarios: stock.value.scenarios,
+            minmax: stock.value.minmax,
+            sliders: stock.value.sliders,
+            nakopleniye: stock.value.nakopleniye,
+            trendPower: stock.value.trendPower,
+            dynamics: stock.value.dynamics,
+            news: stock.value.news,
             createdAt: ts
         })
         .then((docRef) => {
@@ -272,8 +338,30 @@ const stockFuncs = () => {
         
     }
 
+    const addFeature = () => {
+        db.collection("features").add({
+            feature: feature.value,
+            createdAt: ts
+        })
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+            feature.value.text = ''
+        })
+        .catch((error: Error) => {
+            console.error("Error adding document: ", error);
+        });
+    }
+
     const updateStock =  (id: string) => {
         db.collection("stocks").doc(id).update(stock.value)
+    }
+
+    const deleteFeature = (id: string) => {
+        db.collection("features").doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        }); 
     }
 
     const deleteStock = (id: string) => {
@@ -331,7 +419,7 @@ const stockFuncs = () => {
         }
     }
 
-    return { getTgVisitors, addTgVisitor, deleteTgVisitor, tgVisitors, embedChart, suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
+    return { feature, features, getFeatures, addFeature, deleteFeature, getTgVisitors, addTgVisitor, deleteTgVisitor, tgVisitors, embedChart, suggestions, suggestion, addSuggestion, deleteSuggestion, getSuggestions, suggestionSent, handleChange, uploadImage, file, stocks, stock, getStocks, getStock, getStockTV, addStock, updateStock, deleteStock }
 }
 
 export default stockFuncs

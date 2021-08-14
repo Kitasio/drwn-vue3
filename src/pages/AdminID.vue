@@ -2,7 +2,10 @@
     <stock-nav></stock-nav>
     <div class="bg-white h-screen p-5 sm:p-10 lg:px-32 mx-auto">
         <div class="relative shadow-brand rounded-lg p-5 lg:p-10 w-full h-5/6 overflow-scroll">
-            <div class="text-2xl mb-5 font-benzin-semibold">Редактирование Акции</div>
+            <div class="flex justify-between items-center">
+                <div class="text-2xl mb-5 font-benzin-semibold">Редактирование Акции</div>
+                <button class="px-5 py-2 border-2 rounded-md cursor-pointer transition duration-200 hover:bg-deep-green hover:text-white border-deep-green text-deep-green" @click="updateStock(route.params.id.toString()); router.go(-1)">Сохранить</button>
+            </div>
             <tabs v-model="activeTab">
 
                 <tab class="font-ttnorms" title="Основное">
@@ -17,212 +20,70 @@
                     <div>Trading View ID</div>
                     <input v-model="stock.tradingView" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
 
+                    <div class="mt-5">Рекомендация</div>
+                    <div class="flex flex-col space-y-2">
+                        <input v-model="stock.recommendation.text" type="text" class="border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                        <textarea v-model="stock.recommendation.comment" name="" id="" cols="10" class="w-72 h-32 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md"></textarea>
+                    </div>
+
                     <div class="mt-5">Сектор</div>
-                    <Listbox v-model="selectedSector">
-                        <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-72">
-                            <div class="flex justify-between">
-                                <div>{{ selectedSector.name }}</div>
-                                <img class="w-3" src="/img/icons/arrowDown.svg" alt="">
-                            </div>
-                        </ListboxButton>
-                        <transition
-                        enter-active-class="transition duration-100 ease-out"
-                        enter-from-class="transform scale-95 opacity-0"
-                        enter-to-class="transform scale-100 opacity-100"
-                        leave-active-class="transition duration-75 ease-out"
-                        leave-from-class="transform scale-100 opacity-100"
-                        leave-to-class="transform scale-95 opacity-0"
-                        >
-                            <ListboxOptions class="absolute mt-2 z-10 bg-white w-72 py-2 px-3 border-2 border-light-purple rounded-md">
-                                <ListboxOption
-                                    v-for="(sector, i) in sectors"
-                                    :key="i"
-                                    :value="sector"
-                                >
-                                    <div v-if="i != 0" class="cursor-pointer py-1 text-gray-500 hover:text-black transition">{{ sector.name }}</div>
-                                </ListboxOption>
-                            </ListboxOptions>
-                        </transition>
-                    </Listbox>
-
-                </tab>
-
-                <tab class="font-ttnorms" title="Тренд">
-                    <div class="flex space-x-10">
-                        <div>
-                            <div class="mb-3">Higs Lows</div>
-                            <Listbox v-model="selectedHighLows">
-                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
-                                    <div class="flex items-center space-x-3">
-                                        <div :style="`background-color: ${selectedHighLows.color}`" class="w-5 h-5 rounded-full"></div>
-                                        <div>{{ selectedHighLows.text }}</div>
-                                    </div>
-                                </ListboxButton>
-                                <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-out"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0"
-                                        >
-                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
+                    <div class="flex space-x-3 items-center">
+                        <Listbox v-model="selectedSector">
+                            <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-72">
+                                <div class="flex justify-between">
+                                    <div>{{ selectedSector.name }}</div>
+                                    <img class="w-3" src="/img/icons/arrowDown.svg" alt="">
+                                </div>
+                            </ListboxButton>
+                            <transition
+                            enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-out"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0"
+                            >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-72 py-2 px-3 border-2 border-light-purple rounded-md">
                                     <ListboxOption
-                                        v-for="(trend, i) in trendOptions"
+                                        v-for="(sector, i) in sectors"
                                         :key="i"
-                                        :value="trend"
+                                        :value="sector"
                                     >
-                                        <div v-if="i != 0" class="flex items-center space-x-3 cursor-pointer">
-                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
-                                            <div>{{ trend.text }}</div>
-                                        </div>
+                                        <div class="cursor-pointer py-1 text-gray-500 hover:text-black transition">{{ sector.name }}</div>
                                     </ListboxOption>
                                 </ListboxOptions>
-                                </transition>
-                            </Listbox>
-                        </div>
-
-                        <div>
-                            <div class="mb-3">Sma Ema</div>
-                            <Listbox v-model="selectedSmaEma">
-                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
-                                    <div class="flex items-center space-x-3">
-                                        <div :style="`background-color: ${selectedSmaEma.color}`" class="w-5 h-5 rounded-full"></div>
-                                        <div>{{ selectedSmaEma.text }}</div>
-                                    </div>
-                                </ListboxButton>
-                                <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-out"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0"
-                                        >
-                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
-                                    <ListboxOption
-                                        v-for="(trend, i) in trendOptions"
-                                        :key="i"
-                                        :value="trend"
-                                    >
-                                        <div v-if="i != 0" class="flex items-center space-x-3 cursor-pointer">
-                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
-                                            <div>{{ trend.text }}</div>
-                                        </div>
-                                    </ListboxOption>
-                                </ListboxOptions>
-                                </transition>
-                            </Listbox>
-                        </div>
-
-                        <div>
-                            <div class="mb-3">Accum/Dist</div>
-                            <Listbox v-model="selectedAccum">
-                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
-                                    <div class="flex items-center space-x-3">
-                                        <div :style="`background-color: ${selectedAccum.color}`" class="w-5 h-5 rounded-full"></div>
-                                        <div>{{ selectedAccum.text }}</div>
-                                    </div>
-                                </ListboxButton>
-                                <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-out"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0"
-                                        >
-                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
-                                    <ListboxOption
-                                        v-for="(trend, i) in trendOptions"
-                                        :key="i"
-                                        :value="trend"
-                                    >
-                                        <div v-if="i != 0" class="flex items-center space-x-3 cursor-pointer">
-                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
-                                            <div>{{ trend.text }}</div>
-                                        </div>
-                                    </ListboxOption>
-                                </ListboxOptions>
-                                </transition>
-                            </Listbox>
-                        </div>
-
-                        <div>
-                            <div class="mb-3">ADX</div>
-                            <Listbox v-model="selectedAdx">
-                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
-                                    <div class="flex items-center space-x-3">
-                                        <div :style="`background-color: ${selectedAdx.color}`" class="w-5 h-5 rounded-full"></div>
-                                        <div>{{ selectedAdx.text }}</div>
-                                    </div>
-                                </ListboxButton>
-                                <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-out"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0"
-                                        >
-                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
-                                    <ListboxOption
-                                        v-for="(trend, i) in trendOptions"
-                                        :key="i"
-                                        :value="trend"
-                                    >
-                                        <div v-if="i != 0" class="flex items-center space-x-3 cursor-pointer">
-                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
-                                            <div>{{ trend.text }}</div>
-                                        </div>
-                                    </ListboxOption>
-                                </ListboxOptions>
-                                </transition>
-                            </Listbox>
+                            </transition>
+                        </Listbox>
+                        <div class="flex space-x-1">
+                            <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.sector.color">
+                            <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.sector.color">
+                            <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.sector.color">
                         </div>
                     </div>
-                    <div class="mt-5">
-                        <div class="mb-3">В целом</div>
-                            <Listbox v-model="selectedTrendSum">
-                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
-                                    <div class="flex items-center space-x-3">
-                                        <div :style="`background-color: ${selectedTrendSum.color}`" class="w-5 h-5 rounded-full"></div>
-                                        <div>{{ selectedTrendSum.text }}</div>
-                                    </div>
-                                </ListboxButton>
-                                <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-out"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0"
-                                        >
-                                <ListboxOptions class="absolute z-10 mt-2 bg-white w-56 space-y-3 p-3 border-2 border-light-purple rounded-md">
-                                    <ListboxOption
-                                        v-for="(trend, i) in sums"
-                                        :key="i"
-                                        :value="trend"
-                                    >
-                                        <div class="flex items-center space-x-3 cursor-pointer">
-                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
-                                            <div>{{ trend.text }}</div>
-                                        </div>
-                                    </ListboxOption>
-                                </ListboxOptions>
-                                </transition>
-                            </Listbox>
-                        </div>
                 </tab>
 
                 <tab class="font-ttnorms" title="Фундаментальные показатели">
-                    <div class="flex space-x-7 2xl:space-x-14">
+                    <div class="grid grid-cols-4 gap-10">
+                        <div>
+                            <div>PEG</div>
+                            <div>
+                                <input v-model="stock.peg.text" type="text" placeholder="text" class="w-full border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.peg.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.peg.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.peg.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.peg.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.peg.color">
+                                </div>
+                            </div>
+                        </div>
+
                         <div>
                             <div>fwd P/E24</div>
                             <div>
-                                <input v-model="stock.fwd.text" placeholder="text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <input v-model="stock.fwd.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
+                                <input v-model="stock.fwd.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.fwd.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.fwd.color" @click="stock.fwd.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.fwd.color" @click="stock.fwd.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.fwd.color" @click="stock.fwd.num = 10">
@@ -234,9 +95,9 @@
                         <div>
                             <div>Debt/Equity</div>
                             <div>
-                                <input v-model="stock.debtEquity.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <input v-model="stock.debtEquity.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
+                                <input v-model="stock.debtEquity.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.debtEquity.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 10">
@@ -248,9 +109,9 @@
                         <div>
                             <div>Current ratio</div>
                             <div>
-                                <input v-model="stock.currentRatio.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <input v-model="stock.currentRatio.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
+                                <input v-model="stock.currentRatio.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.currentRatio.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 10">
@@ -260,46 +121,61 @@
                         </div>
 
                         <div>
-                            <div>Open interest</div>
+                            <div>Темпы роста рынка</div>
                             <div>
-                                <input v-model="stock.openInterest.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <input v-model="stock.openInterest.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.openInterest.color" @click="stock.openInterest.num = 1">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.openInterest.color" @click="stock.openInterest.num = 100">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.openInterest.color" @click="stock.openInterest.num = 10">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.openInterest.color" @click="stock.openInterest.num = 0">
+                                <input v-model="stock.growth.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.growth.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.growth.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.growth.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.growth.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.growth.color">
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <div>Analysis</div>
+                            <div>Конкур. положение</div>
                             <div>
-                                <input v-model="stock.analysis.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <input v-model="stock.analysis.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.analysis.color" @click="stock.analysis.num = 1">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.analysis.color" @click="stock.analysis.num = 100">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.analysis.color" @click="stock.analysis.num = 10">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.analysis.color" @click="stock.analysis.num = 0">
+                                <input v-model="stock.competition.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.competition.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.competition.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.competition.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.competition.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.competition.color">
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <div>Short float</div>
+                            <div>Рост цены акций / рост прибыли</div>
                             <div>
-                                <input v-model="stock.shortFloat.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <input v-model="stock.shortFloat.comment" placeholder="comment" type="text" class="mt-2 border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 1">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 100">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 10">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.shortFloat.color" @click="stock.shortFloat.num = 0">
+                                <input v-model="stock.priceGrowth.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.priceGrowth.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.priceGrowth.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.priceGrowth.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.priceGrowth.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.priceGrowth.color">
                                 </div>
                             </div>
                         </div>
+
+                        <div>
+                            <div>Поведение на отчетах</div>
+                            <div>
+                                <input v-model="stock.report.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.report.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <div class="space-x-3">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.report.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.report.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.report.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.report.color">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="mt-5">
                         <div class="mb-3">В целом</div>
@@ -335,7 +211,8 @@
                     </div>
                 </tab>
                 <tab class="font-ttnorms" title="Тех. анализ">
-                   <div class="flex space-x-7 2xl:space-x-14">
+                    <h1 class="text-xl">Индикаторы</h1>
+                   <div class="flex space-x-7 2xl:space-x-14 mt-2">
                         <div>
                             <div>Уровни</div>
                             <div>
@@ -388,7 +265,143 @@
                             </div>
                         </div>
                    </div>
-                   <div class="mt-5">
+                   
+
+                    <h1 class="text-xl mt-10">Признаки тренда</h1>
+                    <div class="flex space-x-10">
+                        <div>
+                            <div class="mb-3">Higs Lows</div>
+                            <Listbox v-model="selectedHighLows">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedHighLows.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedHighLows.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in trendOptions"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
+                        </div>
+
+                        <div>
+                            <div class="mb-3">Sma Ema</div>
+                            <Listbox v-model="selectedSmaEma">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedSmaEma.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedSmaEma.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in trendOptions"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
+                        </div>
+
+                        <div>
+                            <div class="mb-3">Accum/Dist</div>
+                            <Listbox v-model="selectedAccum">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedAccum.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedAccum.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in trendOptions"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
+                        </div>
+
+                        <div>
+                            <div class="mb-3">ADX</div>
+                            <Listbox v-model="selectedAdx">
+                                <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                    <div class="flex items-center space-x-3">
+                                        <div :style="`background-color: ${selectedAdx.color}`" class="w-5 h-5 rounded-full"></div>
+                                        <div>{{ selectedAdx.text }}</div>
+                                    </div>
+                                </ListboxButton>
+                                <transition
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-out"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0"
+                                        >
+                                <ListboxOptions class="absolute mt-2 z-10 bg-white w-56 space-y-3 px-3 border-2 border-light-purple rounded-md">
+                                    <ListboxOption
+                                        v-for="(trend, i) in trendOptions"
+                                        :key="i"
+                                        :value="trend"
+                                    >
+                                        <div class="flex items-center space-x-3 cursor-pointer">
+                                            <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ trend.text }}</div>
+                                        </div>
+                                    </ListboxOption>
+                                </ListboxOptions>
+                                </transition>
+                            </Listbox>
+                        </div>
+                    </div>
+                    <div class="mt-5">
                         <div class="mb-3">В целом</div>
                             <Listbox v-model="selectedTechSum">
                                 <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
@@ -421,9 +434,138 @@
                             </Listbox>
                     </div>
                 </tab>
+                
+                <tab class="font-ttnorms" title="Фон">
+                   <div class="grid grid-cols-3 gap-5">
+                        <div>
+                            <h1>Новость</h1>
+                            <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="news.text" type="text">
+                        </div>
+                        <div>
+                            <h1>Тип</h1>
+                            <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="news.type" type="text">
+                        </div>
+                        <div>
+                            <h1>Потенциал роста</h1>
+                            <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="news.potential" type="text">
+                        </div>
+                    </div>
+                    <div class="flex space-x-5 items-center justify-between">
+                        <div class="flex cursor-pointer mt-12">
+                            <div class="border-2 border-black rounded-md px-4 py-3" @click="pushNews">Добавить новость</div>
+                        </div>
+                        <div class="mt-5">
+                            <div class="mb-3">В целом</div>
+                                <Listbox v-model="selectedContextSum">
+                                    <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md w-56">
+                                        <div class="flex items-center space-x-3">
+                                            <div :style="`background-color: ${selectedContextSum.color}`" class="w-5 h-5 rounded-full"></div>
+                                            <div>{{ selectedContextSum.text }}</div>
+                                        </div>
+                                    </ListboxButton>
+                                    <transition
+                                            enter-active-class="transition duration-100 ease-out"
+                                            enter-from-class="transform scale-95 opacity-0"
+                                            enter-to-class="transform scale-100 opacity-100"
+                                            leave-active-class="transition duration-75 ease-out"
+                                            leave-from-class="transform scale-100 opacity-100"
+                                            leave-to-class="transform scale-95 opacity-0"
+                                            >
+                                    <ListboxOptions class="absolute z-10 mt-2 bg-white w-56 space-y-3 p-3 border-2 border-light-purple rounded-md">
+                                        <ListboxOption
+                                            v-for="(trend, i) in sums"
+                                            :key="i"
+                                            :value="trend"
+                                        >
+                                            <div class="flex items-center space-x-3 cursor-pointer">
+                                                <div :style="`background-color: ${trend.color}`" class="w-5 h-5 rounded-full"></div>
+                                                <div>{{ trend.text }}</div>
+                                            </div>
+                                        </ListboxOption>
+                                    </ListboxOptions>
+                                    </transition>
+                                </Listbox>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <header class="grid grid-cols-3 py-3 border-b border-t border-black">
+                            <h1>Новость</h1>
+                            <h1>Тип</h1>
+                            <h1>Потенциал роста</h1>
+                        </header>
+                        <main v-for="(i, index) in stock.news" :key="index" class="grid grid-cols-3 py-3 border-b border-black">
+                            <p>{{ i.text }}</p>
+                            <p>{{ i.type }}</p>
+                            <div class="flex justify-between items-center">
+                                <p>{{ i.potential }}</p>
+                                <div @click="stock.news.splice(index, 1)" class="text-base-red cursor-pointer text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </tab>
+                <tab class="font-ttnorms" title="Сценарии">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <h1>Название</h1>
+                            <textarea class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="scenario.name" type="text"></textarea>
+                        </div>
+                        <div>
+                            <h1>Описание</h1>
+                            <textarea class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="scenario.description" type="text"></textarea>
+                        </div>
+                        <div>
+                            <h1>Проект решения</h1>
+                            <textarea class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="scenario.project" type="text"></textarea>
+                        </div>
+                        <div>
+                            <h1>Вероятность</h1>
+                            <textarea class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="scenario.probability" type="text"></textarea>
+                            <div class="flex space-x-1">
+                                <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="scenario.color">
+                                <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="scenario.color">
+                                <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="scenario.color">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex cursor-pointer mt-3">
+                        <div class="border-2 border-black rounded-md px-4 py-3" @click="pushScenario">Добавить сценарий</div>
+                    </div>
+                    <div class="mt-5">
+                        <table v-if="stock.scenarios[0]" class="table-auto w-full">
+                            <thead>
+                                <tr class="border-b border-t">
+                                    <th class="text-left py-3">Название</th>
+                                    <th class="text-left">Описание</th>
+                                    <th class="text-left">Проект решения</th>
+                                    <th class="text-left">Вероятность</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b" v-for="(s, index) in stock.scenarios" :key="s.id">
+                                    <td class="py-3 whitespace-nowrap pr-4">{{ s.name }}</td>
+                                    <td class="pr-4">{{ s.description }}</td>
+                                    <td class="pr-4">{{ s.project }}</td>
+                                    <td class="flex items-center my-auto py-3 space-x-3">
+                                        <div>{{ s.probability }}</div>
+                                        <div class="w-4 h-4 rounded-full" :style="`background-color: ${s.color}`"></div>
+                                    </td>
+                                    <td @click="stock.scenarios.splice(index, 1)" class="text-base-red cursor-pointer text-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </tab>
             </tabs>
 
-        	<button class="mt-10 absolute bottom-10 right-10 border-2 border-black rounded-md px-4 py-3" @click="updateStock(route.params.id.toString()); router.go(-1)">Сохранить</button>
         </div>
     </div>
 </template>
@@ -450,6 +592,40 @@ export default defineComponent({
         const { stock, getStock, updateStock, handleChange } = stockFuncs()
         const activeTab = ref(0)
 
+        const scenario = ref({
+            name: '',
+            description: '',
+            project: '',
+            probability: '',
+            color: '',
+        })
+
+        const pushScenario = () => {
+            stock.value.scenarios.push(scenario.value)
+            scenario.value = {
+                name: '',
+                description: '',
+                project: '',
+                probability: '',
+                color: '',
+            }
+        }
+
+        const news = ref({
+            text: '',
+            type: '',
+            potential: '',
+        })
+
+        const pushNews = () => {
+            stock.value.news.push(news.value)
+            news.value = {
+                text: '',
+                type: '',
+                potential: '', 
+            }
+        }
+
         const sectors = [
             {},
             { name: 'Товары первой необходимости' },
@@ -475,6 +651,7 @@ export default defineComponent({
         ] 
 
         const sums = [
+            { color: '#AD92B7', text: 'Не отображать'},
             { color: '#00FF4A', text: 'В норме' },
             { color: '#FBBC05', text: 'Внимание' },
             { color: '#FF005C', text: 'Угроза' },
@@ -488,6 +665,7 @@ export default defineComponent({
         const selectedTrendSum = ref<any>(sums[0])
         const selectedTechSum = ref<any>(sums[0])
         const selectedFundSum = ref<any>(sums[0])
+        const selectedContextSum = ref<any>(sums[0])
         const trendParams = ref<any>([selectedHighLows, selectedSmaEma, selectedAccum, selectedAdx])
 
         watch([selectedSector, selectedHighLows, selectedSmaEma, selectedAccum, selectedAdx, selectedTrendSum, selectedTechSum, selectedFundSum], () => {
@@ -499,6 +677,7 @@ export default defineComponent({
             stock.value.trendSum = selectedTrendSum
             stock.value.techSum = selectedTechSum
             stock.value.fundSum = selectedFundSum
+            stock.value.contextSum = selectedContextSum
         })
 
         watchEffect(() => {
@@ -510,11 +689,13 @@ export default defineComponent({
             selectedTrendSum.value = stock.value.trendSum
             selectedTechSum.value = stock.value.techSum
             selectedFundSum.value = stock.value.fundSum
+            selectedContextSum.value = stock.value.contextSum
         })
 
         getStock(route.params.id.toString())
 
         return {
+            selectedContextSum,
             selectedTrendSum,
             selectedTechSum,
             selectedFundSum,
@@ -534,6 +715,10 @@ export default defineComponent({
             getStock, 
             updateStock, 
             handleChange,
+            scenario,
+            pushScenario,
+            news,
+            pushNews,
         }
     },
 })
