@@ -5,7 +5,8 @@
             <div class="flex justify-between">
                 <div class="text-2xl font-benzin-semibold">Админ панель</div>
                 <div class="flex space-x-10 items-center">
-                    <router-link to="/admin/newStock" class="px-5 py-2 border-2 rounded-md cursor-pointer transition duration-200 hover:bg-deep-green hover:text-white border-deep-green text-deep-green">Добавить</router-link>
+                    <router-link to="/admin/newSector" class="px-5 py-2 border-2 rounded-md cursor-pointer transition duration-200 hover:bg-deep-green hover:text-white border-deep-green text-deep-green">Добавить сектор</router-link>
+                    <router-link to="/admin/newStock" class="px-5 py-2 border-2 rounded-md cursor-pointer transition duration-200 hover:bg-deep-green hover:text-white border-deep-green text-deep-green">Добавить акцию</router-link>
                     <div @click="logout" class="text-lg cursor-pointer text-gray-500 transition hover:text-black font-benzin-semibold">Logout</div>
                 </div>
             </div>
@@ -68,6 +69,39 @@
                                     </router-link>
                                 </td>
                                 <td @click="deleteStock(stock.id)" class="text-base-red cursor-pointer text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tab>
+                <tab title="Сектора">
+                    <table class="table-auto my-5 border-b-2 border-light-purple w-full">
+                        <thead class="border-b-2 border-light-purple">
+                            <tr>
+                                <th class="pr-10 py-3 align-bottom text-left leading-4 w-6/12">Название</th>
+                                <th class="pr-10 py-3 align-bottom text-left leading-4 w-6/12">Фон</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b-2 border-light-purple" v-for="s in sectors" :key="s.id">
+                                <td class="py-3">{{ s.name }}</td>
+                                <td>
+                                    <div class="flex space-x-2">
+                                        <div class="w-4 h-4 rounded-full" :style="`background-color: ${s.context.color}`"></div>
+                                        <div>{{ s.context.text }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <router-link :to="`/admin/sector/${s.id}`">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </router-link>
+                                </td>
+                                <td @click="deleteSector(s.id)" class="text-base-red pl-3 cursor-pointer text-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
@@ -152,13 +186,16 @@ import stockFuncs from '../composables/stockFuncs'
 import StockNav from '../components/StockNav.vue'
 import Tab from '../components/Tab.vue'
 import Tabs from '../components/Tabs.vue'
+import sectorFuncs from '../composables/sectorFuncs'
 export default defineComponent({
   components: { StockNav, Tab, Tabs },
     setup() {
         const activeTab = ref(0)
         const router = useRouter()
         const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions, deleteSuggestion, tgVisitors, deleteTgVisitor, getTgVisitors, feature, features, getFeatures, addFeature, deleteFeature } = stockFuncs()
+        const { sectors, getSectors, deleteSector } = sectorFuncs()
         getStocks()
+        getSectors()
         getSuggestions()
         getTgVisitors()
         getFeatures()
@@ -169,7 +206,7 @@ export default defineComponent({
         }
 
         const getDate = (unix: any) => {
-            var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            var options: any = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
             let date = new Date(unix * 1000).toLocaleDateString('ru-RU', options)
             return date
         }
@@ -198,7 +235,7 @@ export default defineComponent({
             '',
         ])
 
-        return { feature, features, getFeatures, addFeature, deleteFeature, tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
+        return { deleteSector, sectors, feature, features, getFeatures, addFeature, deleteFeature, tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
     },
 })
 </script>

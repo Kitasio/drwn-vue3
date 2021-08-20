@@ -63,26 +63,13 @@
 
 
                 <tab class="font-ttnorms" title="Фундаментальные показатели">
-                    <div class="grid grid-cols-4 gap-10">
-                        <div>
-                            <div>PEG</div>
-                            <div>
-                                <input v-model="stock.peg.text" type="text" placeholder="text" class="w-full border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <input v-model="stock.peg.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <div class="space-x-3">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.peg.color">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.peg.color">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.peg.color">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.peg.color">
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="grid grid-cols-3 gap-10">
                         <div>
                             <div>fwd P/E24</div>
                             <div>
                                 <input v-model="stock.fwd.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <input v-model="stock.fwd.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.fwd.sectorDiff" placeholder="Отличие от сектора" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.fwd.color" @click="stock.fwd.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.fwd.color" @click="stock.fwd.num = 100">
@@ -97,6 +84,7 @@
                             <div>
                                 <input v-model="stock.debtEquity.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <input v-model="stock.debtEquity.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.debtEquity.sectorDiff" placeholder="Отличие от сектора" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.debtEquity.color" @click="stock.debtEquity.num = 100">
@@ -111,6 +99,7 @@
                             <div>
                                 <input v-model="stock.currentRatio.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <input v-model="stock.currentRatio.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.currentRatio.sectorDiff" placeholder="Отличие от сектора" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.currentRatio.color" @click="stock.currentRatio.num = 100">
@@ -121,60 +110,50 @@
                         </div>
 
                         <div>
-                            <div>Темпы роста рынка</div>
+                            <div>Open interest</div>
                             <div>
-                                <input v-model="stock.growth.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <input v-model="stock.growth.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.openInterest.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.openInterest.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.openInterest.sectorDiff" placeholder="Отличие от сектора" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <div class="space-x-3">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.growth.color">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.growth.color">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.growth.color">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.growth.color">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.openInterest.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.openInterest.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.openInterest.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.openInterest.color">
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <div>Конкур. положение</div>
+                            <div>Analysts</div>
                             <div>
-                                <input v-model="stock.competition.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <input v-model="stock.competition.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.analysts.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.analysts.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.analysts.sectorDiff" placeholder="Отличие от сектора" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <div class="space-x-3">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.competition.color">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.competition.color">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.competition.color">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.competition.color">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.analysts.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.analysts.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.analysts.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.analysts.color">
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <div>Рост цены акций / рост прибыли</div>
+                            <div>Short-float</div>
                             <div>
-                                <input v-model="stock.priceGrowth.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <input v-model="stock.priceGrowth.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.shortFloat.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.shortFloat.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
+                                <input v-model="stock.shortFloat.sectorDiff" placeholder="Отличие от сектора" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                                 <div class="space-x-3">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.priceGrowth.color">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.priceGrowth.color">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.priceGrowth.color">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.priceGrowth.color">
+                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.shortFloat.color">
+                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.shortFloat.color">
+                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.shortFloat.color">
+                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple" type="radio" value="#AD92B7" id="gray" v-model="stock.shortFloat.color">
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <div>Поведение на отчетах</div>
-                            <div>
-                                <input v-model="stock.report.text" type="text" class="w-full  border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <input v-model="stock.report.comment" placeholder="comment" type="text" class="w-full mt-2 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
-                                <div class="space-x-3">
-                                    <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.report.color">
-                                    <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red"  type="radio" value="#FF005C" id="red" v-model="stock.report.color">
-                                    <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow"  type="radio" value="#FBBC05" id="yellow" v-model="stock.report.color">
-                                    <input class="bg-light-purple w-5 h-5 focus:ring-2 text-light-purple ring-light-purple"  type="radio" value="#AD92B7" id="gray" v-model="stock.report.color">
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="mt-5">
@@ -216,7 +195,8 @@
                         <div>
                             <div>Уровни</div>
                             <div>
-                                <input v-model="stock.levels.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
+                                <input v-model="stock.levels.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <input v-model="stock.levels.sectorDiff" type="text" placeholder="Отличие от сектора" class="mt-3 border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
                                 <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.levels.color" @click="stock.levels.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.levels.color" @click="stock.levels.num = 100">
@@ -229,8 +209,9 @@
                         <div>
                             <div>Fibo</div>
                             <div>
-                                <input v-model="stock.fibo.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
+                                <input v-model="stock.fibo.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <input v-model="stock.fibo.sectorDiff" type="text" placeholder="Отличие от сектора" class="mt-3 border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.fibo.color" @click="stock.fibo.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.fibo.color" @click="stock.fibo.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.fibo.color" @click="stock.fibo.num = 10">
@@ -242,8 +223,9 @@
                         <div>
                             <div>Stoch</div>
                             <div>
-                                <input v-model="stock.stoch.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
+                                <input v-model="stock.stoch.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <input v-model="stock.stoch.sectorDiff" type="text" placeholder="Отличие от сектора" class="mt-3 border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.stoch.color" @click="stock.stoch.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.stoch.color" @click="stock.stoch.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.stoch.color" @click="stock.stoch.num = 10">
@@ -255,8 +237,9 @@
                         <div>
                             <div>Pattern</div>
                             <div>
-                                <input v-model="stock.pattern.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-40 border-2 rounded-md">
-                                <div class="flex w-full justify-between px-2 mt-2">
+                                <input v-model="stock.pattern.text" type="text" class=" border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <input v-model="stock.pattern.sectorDiff" type="text" placeholder="Отличие от сектора" class="mt-3 border-light-purple focus:border-light-purple focus:ring-0 w-56 border-2 rounded-md">
+                                <div class="space-x-3">
                                     <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="stock.pattern.color" @click="stock.pattern.num = 1">
                                     <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="stock.pattern.color" @click="stock.pattern.num = 100">
                                     <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="stock.pattern.color" @click="stock.pattern.num = 10">
@@ -300,6 +283,7 @@
                                 </ListboxOptions>
                                 </transition>
                             </Listbox>
+                            <input v-model="stock.highLowsDiff" type="text" placeholder="Отличие от сектора" class="mt-3 w-56 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                         </div>
 
                         <div>
@@ -333,6 +317,7 @@
                                 </ListboxOptions>
                                 </transition>
                             </Listbox>
+                            <input v-model="stock.smaEmaDiff" type="text" placeholder="Отличие от сектора" class="mt-3 w-56 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                         </div>
 
                         <div>
@@ -366,6 +351,7 @@
                                 </ListboxOptions>
                                 </transition>
                             </Listbox>
+                            <input v-model="stock.accumDiff" type="text" placeholder="Отличие от сектора" class="mt-3 w-56 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                         </div>
 
                         <div>
@@ -399,6 +385,7 @@
                                 </ListboxOptions>
                                 </transition>
                             </Listbox>
+                            <input v-model="stock.adxDiff" type="text" placeholder="Отличие от сектора" class="mt-3 w-56 border-light-purple focus:border-light-purple focus:ring-0 border-2 rounded-md">
                         </div>
                     </div>
                     <div class="mt-5">

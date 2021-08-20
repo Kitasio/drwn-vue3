@@ -1,7 +1,8 @@
 # DRWN TODO
 
-DONE 1. text in tabs 
-DONE 2. trading view logged in with drawings widget
-3. tg login
-DONE 4. fix mobile circles on text
-DONE 5. company pics
+1. create sectors page admin
+2. create sectors page user
+
+### 12:00 - 13:30
+---
+1. sectors tab in admin page

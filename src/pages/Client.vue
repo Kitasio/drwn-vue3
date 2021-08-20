@@ -110,9 +110,9 @@
 							</div>
 							<div>
 								<div class="flex space-x-2 items-center font-benzin-semibold text-sm text-white relative">
-									<div v-if="stock.techSum.color != '#AD92B7'" :id="`tech${stock.id}`" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${stock.techSum.color}`">Т.А<span class="tooltip">Технический Анализ</span></div>
-									<div v-if="stock.fundSum.color != '#AD92B7'" :id="`fund${stock.id}`" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${stock.fundSum.color}`">Ф.А<span class="tooltip">Фундаментальный Анализ</span></div>
-									<div v-if="stock.contextSum.color != '#AD92B7'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.contextSum.color}`">Фон</div>
+									<div v-if="stock.techSum.color != '#00FF4A'" :id="`tech${stock.id}`" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${stock.techSum.color}`">Т.А<span class="tooltip">Технический Анализ</span></div>
+									<div v-if="stock.fundSum.color != '#00FF4A'" :id="`fund${stock.id}`" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${stock.fundSum.color}`">Ф.А<span class="tooltip">Фундаментальный Анализ</span></div>
+									<div v-if="stock.contextSum.color != '#00FF4A'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.contextSum.color}`">Фон</div>
 								</div>
 							</div>
 							<div class="flex justify-between">

@@ -2,7 +2,7 @@
 @tailwind components;
 
 .tooltip {
-@apply invisible absolute opacity-0 transition-all duration-300 -mt-10 p-2 shadow-lg rounded-md bg-base-purple;
+@apply invisible absolute opacity-0 transition-all duration-300 -mt-10 p-2 shadow-lg rounded-md bg-base-purple w-64;
 
 }
 

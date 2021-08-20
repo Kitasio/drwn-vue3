@@ -17,6 +17,11 @@ import Login from './pages/Login.vue'
 import Client from './pages/Client.vue'
 import Analytics from './pages/Analytics.vue'
 import Calc from './pages/Calc.vue'
+import NewSector from './pages/NewSector.vue'
+import SectorID from './pages/SectorID.vue'
+import Sectors from './pages/Sectors.vue'
+import Sector from './pages/Sector.vue'
+
 const routes = [
     {
         path: '/',
@@ -98,6 +103,26 @@ const routes = [
         path: '/calc',
         name: 'Calc',
         component: Calc,
+    },
+    {
+        path: '/admin/newSector',
+        name: 'NewSector',
+        component: NewSector,
+    },
+    {
+        path: '/admin/sector/:id',
+        name: 'SectorID',
+        component: SectorID,
+    },
+    {
+        path: '/sectors',
+        name: 'Sectors',
+        component: Sectors,
+    },
+    {
+        path: '/sector',
+        name: 'Sector',
+        component: Sector,
     },
 ]
 

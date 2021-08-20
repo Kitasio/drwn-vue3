@@ -1,6 +1,7 @@
 <script>
 import { provide, computed, ref } from "vue";
 import stockFuncs from '../composables/stockFuncs'
+import sectorFuncs from '../composables/sectorFuncs'
 
 export default {
     name: "Tabs",
@@ -15,9 +16,11 @@ export default {
     emits: ["update:modelValue"],
     setup(props, { slots, emit }) {
         const { embedChart, getStockTV } = stockFuncs()
+        const { ideaChart } = sectorFuncs()
         const getStockForTab = (tab) => {
-            if (tab == 'График') {
-                // embedChart(props.selectedStock)
+            if (tab == 'График' || tab == 'Обзор') {
+                console.log('hi from tabs, props: ', props.selectedStock)
+                ideaChart(props.selectedStock)
                 getStockTV(props.selectedStock)
             }
         }
