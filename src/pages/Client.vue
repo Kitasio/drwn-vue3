@@ -68,7 +68,7 @@
 		<div class="hidden md:grid grid-cols-12 h-5/6">
 			<stock-links></stock-links>
 			<div class="md:col-span-12 lg:col-span-10 pb-10">
-				<div class=" shadow-brand rounded-md px-10 pb-5">
+				<div id="box" class=" shadow-brand rounded-md px-10 pb-5">
 					<div class="font-benzin-bold text-xl pt-5">Портфель</div>
 					<div @click="toggleFeatures = !toggleFeatures" class="font-benzin-semibold text-md mt-3 flex items-center space-x-2 cursor-pointer">
 						<div>Характеристики</div>

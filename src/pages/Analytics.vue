@@ -4,7 +4,7 @@
     <div class="font-ttnorms p-5 sm:p-10 lg:px-32 mx-auto">
 		<div class="grid grid-cols-12">
 			<stock-links class="hidden md:flex"></stock-links>
-			<div class="col-span-12 lg:col-span-10 md:shadow-brand rounded-md md:p-7">   
+			<div id="box" class="col-span-12 lg:col-span-10 md:shadow-brand rounded-md md:p-7">   
                 <div class="">
                     <Listbox v-if="selectedStock" v-model="selectedStock">
                         <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md">
@@ -38,9 +38,9 @@
                     </Listbox>
                 </div>
                 
-                <div class="hidden md:block overflow-scroll">
+                <div class="hidden md:block">
                     <tabs v-if="selectedStock" v-model="activeTab" :selectedStock="selectedStock.id" class="">
-                        <tab title="График" class="h-96 2xl:h-135">
+                        <tab title="График">
                             <h1 class="font-benzin-bold text-xl my-5">Сценарии</h1> 
                             <div @click="s.show = !s.show" class="border-b py-3" v-for="(s, index) in selectedStock.scenarios" :key="index">
                                 <div class="flex justify-between">
@@ -67,9 +67,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="width > 600" id="tv" class="w-full h-full"></div>
+                            <div class="h-96 2xl:h-130">
+                                <div v-if="width > 600" id="tv" class="w-full h-full"></div>
+                            </div>
                         </tab>
-                        <tab title="Фон" class="h-96">
+                        <tab title="Фон">
                             <h1 class="font-benzin-bold text-xl my-5">События и фон</h1>
                             <div class="mt-10">
                                 <header class="grid grid-cols-12 py-3 border-b border-t border-black">
@@ -84,7 +86,7 @@
                                 </main>
                             </div>
                         </tab>
-                        <tab title="Фундаментальные показатели" class="h-96">
+                        <tab title="Фундаментальные показатели">
                             <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
                             <table class="table-fixed w-full">
                                 <thead>
@@ -149,7 +151,7 @@
                                 </tbody>
                             </table>
                         </tab>
-                        <tab title="Технический анализ" class="h-96">
+                        <tab title="Технический анализ">
                             <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
                             <header class="grid grid-cols-3 py-3 border-b border-black font-benzin-semibold">
                                 <h1>Индикаторы</h1>
@@ -282,12 +284,20 @@
                                 <div class="py-3">Цена к прибыли'2024</div>
                                 <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
                             </div>
+                            <div class="flex justify-between pb-6">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.fwd.sectorDiff}}</div>
+                            </div>
                             <div>{{ selectedStock.fwd.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
                                 <div class="py-3">Долг/капитал</div>
                                 <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
+                            </div>
+                            <div class="flex justify-between pb-6">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.debtEquity.sectorDiff}}</div>
                             </div>
                             <div>{{ selectedStock.debtEquity.comment }}</div>
                         </div>
@@ -296,12 +306,20 @@
                                 <div class="py-3">Текущая ликвидность</div>
                                 <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
                             </div>
+                            <div class="flex justify-between pb-6">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.currentRatio.sectorDiff}}</div>
+                            </div>
                             <div>{{ selectedStock.currentRatio.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
                                 <div class="py-3">Цель опционов</div>
                                 <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
+                            </div>
+                            <div class="flex justify-between pb-6">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.openInterest.sectorDiff}}</div>
                             </div>
                             <div>{{ selectedStock.openInterest.comment }}</div>
                         </div>
@@ -310,12 +328,20 @@
                                 <div class="py-3">Цель аналитиков</div>
                                 <div :style="`background-color: ${selectedStock.analysts.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysts.text }}</div>
                             </div>
+                            <div class="flex justify-between pb-6">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.analysts.sectorDiff}}</div>
+                            </div>
                             <div>{{ selectedStock.analysts.comment }}</div>
                         </div>
                         <div class="py-3">
                             <div class="flex justify-between items-center pb-3">
                                 <div class="py-3">Шорт-позиции</div>
                                 <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
+                            </div>
+                            <div class="flex justify-between pb-6">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.shortFloat.sectorDiff}}</div>
                             </div>
                             <div>{{ selectedStock.shortFloat.comment }}</div>
                         </div>
@@ -325,80 +351,128 @@
                    <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
                     <h2 class="font-benzin-semibold">Индикаторы</h2>
                     <div class="font-ttnorms divide-y divide-light-purple">
-                        <div class="flex justify-between py-3">
-                            <div>Уровни</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.levels.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.levels.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Уровни</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.levels.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.levels.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.levels.sectorDiff}}</div>
+                            </div> 
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Fibo</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.fibo.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.fibo.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Fibo</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.fibo.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.fibo.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.fibo.sectorDiff}}</div>
+                            </div> 
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Stoch</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.stoch.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.stoch.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Stoch</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.stoch.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.stoch.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.stoch.sectorDiff}}</div>
+                            </div> 
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Pattern</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.pattern.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.pattern.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Pattern</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.pattern.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.pattern.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.stoch.sectorDiff}}</div>
+                            </div> 
                         </div>
                     </div> 
                     <h2 class="font-benzin-semibold mt-3">Признаки тренда</h2>
                     <div class="font-ttnorms divide-y divide-light-purple">
-                        <div class="flex justify-between py-3">
-                            <div>Higs Lows</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.highLows.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.highLows.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Higs Lows</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.highLows.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.highLows.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.highLowsDiff}}</div>
+                            </div> 
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Sma Ema</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.smaEma.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.smaEma.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Sma Ema</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.smaEma.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.smaEma.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.smaEmaDiff}}</div>
+                            </div> 
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>Accum/Dist</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.accum.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.accum.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>Accum/Dist</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.accum.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.accum.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.accumDiff}}</div>
+                            </div> 
                         </div>
-                        <div class="flex justify-between py-3">
-                            <div>ADX</div>
-                            <div class="flex space-x-1 items-center font-ttnorms">
-                                <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.adx.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="50"/>
-                                </svg>
-                                <div>{{ selectedStock.adx.text }}</div>
+                        <div>
+                            <div class="flex justify-between py-3">
+                                <div>ADX</div>
+                                <div class="flex space-x-1 items-center font-ttnorms">
+                                    <svg class="w-4 h-4 absolute -ml-5" :fill="selectedStock.adx.color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <div>{{ selectedStock.adx.text }}</div>
+                                </div>
                             </div>
+                            <div class="flex justify-between pb-3">
+                                <div>Отличие от сектора</div>
+                                <div>{{selectedStock.adxDiff}}</div>
+                            </div> 
                         </div>
                     </div> 
                 </div>

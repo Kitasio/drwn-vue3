@@ -3,7 +3,7 @@
     <div class="font-ttnorms p-5 sm:p-10 lg:px-32 mx-auto">
 		<div class="grid grid-cols-12">
 			<stock-links class="hidden md:flex"></stock-links>
-			<div class="col-span-12 lg:col-span-10 md:shadow-brand rounded-md md:p-7">
+			<div id="box" class="col-span-12 lg:col-span-10 md:shadow-brand rounded-md md:p-7">
                 <div>
                     <Listbox v-if="selectedSector" v-model="selectedSector">
                         <ListboxButton class="py-2 px-3 border-2 border-light-purple rounded-md">
@@ -128,7 +128,7 @@
                                 <h1>Потенциал</h1>
                             </header>
                             <main class="grid grid-cols-5 border-light-purple border-b py-3 gap-5" v-for="(i, index) in selectedSector.fund" :key="index">
-                                <p class="col-span-2">{{i.nameRu}}</p>
+                                <p class="col-span-2 has-tooltip">{{i.nameRu}}<span v-if="i.tooltip" class="tooltip text-white">{{i.tooltip}}</span></p>
                                 <p>{{i.param}}</p>
                                 <p>{{i.change}}</p>
                                 <p>{{i.potential}}</p>
@@ -143,7 +143,7 @@
                                 <h1>Потенциал</h1>
                             </header>
                             <main class="grid grid-cols-5 border-light-purple border-b py-3 gap-5" v-for="(i, index) in selectedSector.tech.slice(0, 4)" :key="index">
-                                <p class="col-span-2">{{i.nameRu}}</p>
+                                <p class="col-span-2 has-tooltip">{{i.nameRu}}<span v-if="i.tooltip" class="tooltip text-white">{{i.tooltip}}</span></p>
                                 <p>{{i.param}}</p>
                                 <p>{{i.change}}</p>
                                 <p>{{i.potential}}</p>
@@ -153,7 +153,7 @@
                                 <h1 class="col-span-2">Тренд</h1>
                             </header>
                             <main class="grid grid-cols-5 border-light-purple border-b py-3 gap-5" v-for="(i, index) in selectedSector.tech.slice(4)" :key="index">
-                                <p class="col-span-2">{{i.nameRu}}</p>
+                                <p class="col-span-2 has-tooltip">{{i.nameRu}}<span v-if="i.tooltip" class="tooltip text-white">{{i.tooltip}}</span></p>
                                 <p>{{i.param}}</p>
                                 <p>{{i.change}}</p>
                                 <p>{{i.potential}}</p>

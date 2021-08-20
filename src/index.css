@@ -27,6 +27,10 @@
     src: url('./assets/fonts/benzin_bold-webfont.woff');
 }
 
+#box {
+    min-height: 30rem;
+}
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.2s;

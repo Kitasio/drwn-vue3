@@ -20,8 +20,8 @@ export default {
         const getStockForTab = (tab) => {
             if (tab == 'График' || tab == 'Обзор') {
                 console.log('hi from tabs, props: ', props.selectedStock)
-                ideaChart(props.selectedStock)
                 getStockTV(props.selectedStock)
+                ideaChart(props.selectedStock)
             }
         }
         const active = computed(() => props.modelValue);
