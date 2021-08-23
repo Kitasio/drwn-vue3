@@ -19,8 +19,11 @@ export default {
         const { ideaChart } = sectorFuncs()
         const getStockForTab = (tab) => {
             if (tab == 'График' || tab == 'Обзор') {
-                console.log('hi from tabs, props: ', props.selectedStock)
-                getStockTV(props.selectedStock)
+                try {
+                    embedChart(props.selectedStock)
+                } catch (error) {
+                    getStockTV(props.selectedStock)
+                }
                 ideaChart(props.selectedStock)
             }
         }

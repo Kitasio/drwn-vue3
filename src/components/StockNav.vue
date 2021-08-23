@@ -27,7 +27,7 @@
                 <div class="text-white py-3">Аналитика</div>
             </router-link>
             <router-link to="/sectors">
-                <div class="text-white py-3">Секторы</div>
+                <div class="text-white py-3">Сектора</div>
             </router-link>
         </div>
     </div>

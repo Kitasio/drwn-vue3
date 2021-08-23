@@ -74,12 +74,12 @@
                         <tab title="Фон">
                             <h1 class="font-benzin-bold text-xl my-5">События и фон</h1>
                             <div class="mt-10">
-                                <header class="grid grid-cols-12 py-3 border-b border-t border-black">
+                                <header class="grid grid-cols-12 gap-5 py-3 border-b font-benzin-semibold border-black">
                                     <h1 class="col-span-8">Новость</h1>
                                     <h1 class="col-span-2">Тип</h1>
                                     <h1 class="col-span-2">Потенциал роста</h1>
                                 </header>
-                                <main v-for="(i, index) in selectedStock.news" :key="index" class="grid grid-cols-12 py-3 border-b border-black">
+                                <main v-for="(i, index) in selectedStock.news" :key="index" class="grid grid-cols-12 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                     <p class="col-span-8">{{ i.text }}</p>
                                     <p class="col-span-2">{{ i.type }}</p>
                                     <p class="col-span-2">{{ i.potential }}</p>
@@ -88,77 +88,69 @@
                         </tab>
                         <tab title="Фундаментальные показатели">
                             <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
-                            <table class="table-fixed w-full">
-                                <thead>
-                                    <tr>
-                                        <th class="w-1/3 text-left">Наименование</th>
-                                        <th class="w-1/3 text-left">Показатель</th>
-                                        <th class="w-1/3 text-left">Отличие от сектора</th>
-                                        <th class="w-1/3 text-left">Комментарий</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    <tr class="w-full border-b">
-                                        <td class="py-3 has-tooltip">Цена к прибыли'2024<span class="tooltip text-white">Цена к ожидаемой в 2024 году прибыли</span></td>
-                                        <td class="flex py-3">
-                                            <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
-                                        </td>
-                                        <td>{{selectedStock.fwd.sectorDiff}}</td>
-                                        <td>{{ selectedStock.fwd.comment }}</td>
-                                    </tr>
-                                    <tr class="w-full border-b">
-                                        <td class="py-3 has-tooltip">Долг/капитал <span class="tooltip text-white">Отношение долга к собственному капиталу</span></td>
-                                        <td class="flex py-3">
-                                            <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
-                                        </td>
-                                        <td>{{selectedStock.debtEquity.sectorDiff}}</td>
-                                        <td>{{ selectedStock.debtEquity.comment }}</td>
-                                    </tr>
-                                    <tr class="w-full border-b">
-                                        <td class="py-3 has-tooltip">Текущая ликвидность <span class="tooltip text-white">Коэффициент текущей ликвидности: покрытие текущих (до года) обязательств текущими активами</span></td>
-                                        <td class="flex py-3">
-                                            <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
-                                        </td>
-                                        <td>{{selectedStock.currentRatio.sectorDiff}}</td>
-                                        <td>{{ selectedStock.currentRatio.comment }}</td>
-                                    </tr>
-                                    <tr class="w-full border-b">
-                                        <td class="py-3 has-tooltip">Цель опционов<span class="tooltip text-white">Поведение опционов - на какой цене самые крупные ставки</span></td>
-                                        <td class="flex py-3">
-                                            <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
-                                        </td>
-                                        <td>{{selectedStock.openInterest.sectorDiff}}</td>
-                                        <td>{{ selectedStock.openInterest.comment }}</td>
-                                    </tr>
-                                    <tr class="w-full border-b">
-                                        <td class="py-3 has-tooltip">Цель аналитиков<span class="tooltip text-white">Рейтинги аналитиков</span></td>
-                                        <td class="flex py-3">
-                                            <div :style="`background-color: ${selectedStock.analysts.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysts.text }}</div>
-                                        </td>
-                                        <td>{{selectedStock.analysts.sectorDiff}}</td>
-                                        <td>{{ selectedStock.analysts.comment }}</td>
-                                    </tr>
-                                    <tr class="w-full border-b">
-                                        <td class="py-3 has-tooltip">Шорт-позиции<span class="tooltip text-white">Доля акций, которые находятся в короткой (ставка на падение) позиции</span></td>
-                                        <td class="flex py-3">
-                                            <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
-                                        </td>
-                                        <td>{{selectedStock.shortFloat.sectorDiff}}</td>
-                                        <td>{{ selectedStock.shortFloat.comment }}</td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
+                            <header class="grid grid-cols-4 gap-5 py-3 border-b border-black font-benzin-semibold">
+                                <h1>Наименование</h1>
+                                <h1>Показатель</h1>
+                                <h1>Отличие от сектора</h1>
+                                <h1>Комментарий</h1>
+                            </header>
+                            <main class="grid grid-cols-4 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
+                                <div class="has-tooltip">Цена к прибыли'2024<span class="tooltip text-white">Цена к ожидаемой в 2024 году прибыли</span></div>
+                                <div class="flex space-x-1 items-start font-ttnorms">
+                                    <div :style="`background-color: ${selectedStock.fwd.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.fwd.text }}</div>
+                                </div>
+                                <div>{{ selectedStock.fwd.sectorDiff }}</div>
+                                <div>{{ selectedStock.fwd.comment }}</div>
+                            </main>
+                            <main class="grid grid-cols-4 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
+                                <div class="has-tooltip">Долг/капитал <span class="tooltip text-white">Отношение долга к собственному капиталу</span></div>
+                                <div class="flex space-x-1 items-start font-ttnorms">
+                                    <div :style="`background-color: ${selectedStock.debtEquity.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.debtEquity.text }}</div>
+                                </div>
+                                <div>{{ selectedStock.debtEquity.sectorDiff }}</div>
+                                <div>{{ selectedStock.debtEquity.comment }}</div>
+                            </main>
+                            <main class="grid grid-cols-4 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
+                                <div class="has-tooltip">Текущая ликвидность <span class="tooltip text-white">Коэффициент текущей ликвидности: покрытие текущих (до года) обязательств текущими активами</span></div>
+                                <div class="flex space-x-1 items-start font-ttnorms">
+                                    <div :style="`background-color: ${selectedStock.currentRatio.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.currentRatio.text }}</div>
+                                </div>
+                                <div>{{ selectedStock.currentRatio.sectorDiff }}</div>
+                                <div>{{ selectedStock.currentRatio.comment }}</div>
+                            </main>
+                            <main class="grid grid-cols-4 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
+                                <div class="has-tooltip">Цель опционов<span class="tooltip text-white">Поведение опционов - на какой цене самые крупные ставки</span></div>
+                                <div class="flex space-x-1 items-start font-ttnorms">
+                                    <div :style="`background-color: ${selectedStock.openInterest.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.openInterest.text }}</div>
+                                </div>
+                                <div>{{ selectedStock.openInterest.sectorDiff }}</div>
+                                <div>{{ selectedStock.openInterest.comment }}</div>
+                            </main>
+                            <main class="grid grid-cols-4 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
+                                <div class="has-tooltip">Цель аналитиков<span class="tooltip text-white">Рейтинги аналитиков</span></div>
+                                <div class="flex space-x-1 items-start font-ttnorms">
+                                    <div :style="`background-color: ${selectedStock.analysts.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.analysts.text }}</div>
+                                </div>
+                                <div>{{ selectedStock.analysts.sectorDiff }}</div>
+                                <div>{{ selectedStock.analysts.comment }}</div>
+                            </main>
+                            <main class="grid grid-cols-4 gap-5 py-3 border-b border-black transition duration-200 hover:shadow-y">
+                                <div class="has-tooltip">Шорт-позиции<span class="tooltip text-white">Доля акций, которые находятся в короткой (ставка на падение) позиции</span></div>
+                                <div class="flex space-x-1 items-start font-ttnorms">
+                                    <div :style="`background-color: ${selectedStock.shortFloat.color}`" class="rounded-full py-1 px-5 text-white">{{ selectedStock.shortFloat.text }}</div>
+                                </div>
+                                <div>{{ selectedStock.shortFloat.sectorDiff }}</div>
+                                <div>{{ selectedStock.shortFloat.comment }}</div>
+                            </main>
                         </tab>
                         <tab title="Технический анализ">
                             <h1 class="font-benzin-bold text-xl my-5">Технический анализ</h1>
                             <header class="grid grid-cols-3 py-3 border-b border-black font-benzin-semibold">
                                 <h1>Индикаторы</h1>
                                 <h1>Показатель</h1>
-                                <h1>Отличие от сектора</h1>
+                                <h1>Комментарий</h1>
                             </header>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Целевые уровни<span class="tooltip text-white">Исторические уровни, на которых цена находила поддержку/сопротивление</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.levels.color}`" class="w-4 h-4 rounded-full"></div>
@@ -166,7 +158,7 @@
                                 </div>
                                 <div>{{ selectedStock.levels.sectorDiff }}</div>
                             </main>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Уровни Фибоначчи<span class="tooltip text-white">Уровень, рассчитанный по ряду Фибоначчи, который выступает поддержкой или сопротивлением. Хорошо указывает глубину отката и динамику импульса продолжения роста</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.fibo.color}`" class="w-4 h-4 rounded-full"></div>
@@ -174,7 +166,7 @@
                                 </div>
                                 <div>{{ selectedStock.fibo.sectorDiff }}</div>
                             </main>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Перекупленность<span class="tooltip text-white">Показатели перекупленности/перепроданности по осциллятору Stochastic</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.stoch.color}`" class="w-4 h-4 rounded-full"></div>
@@ -182,7 +174,7 @@
                                 </div>
                                 <div>{{ selectedStock.stoch.sectorDiff }}</div>
                             </main>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Свечной паттерн</div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.pattern.color}`" class="w-4 h-4 rounded-full"></div>
@@ -194,9 +186,9 @@
                             <header class="grid grid-cols-3 py-3 border-b border-black font-benzin-semibold mt-5">
                                 <h1>Признаки тренда</h1>
                                 <h1>Показатель</h1>
-                                <h1>Отличие от сектора</h1>
+                                <h1>Комментарий</h1>
                             </header>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Максимумы/минимумы<span class="tooltip text-white">Более высокие максимумы и минимумы в диапазоне роста, более низкие - в диапазоне снижения</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.highLows.color}`" class="w-4 h-4 rounded-full"></div>
@@ -204,7 +196,7 @@
                                 </div>
                                 <div>{{ selectedStock.highLowsDiff }}</div>
                             </main>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Скользящие средние<span class="tooltip text-white">Положение относительно скользящих средних и их положение относительно друг друга. Цена выше 20й средней, а 20я выше 50й - признаки аптренда</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.smaEma.color}`" class="w-4 h-4 rounded-full"></div>
@@ -212,7 +204,7 @@
                                 </div>
                                 <div>{{ selectedStock.smaEmaDiff }}</div>
                             </main>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Накопление позиций<span class="tooltip text-white">Увеличение накопления позиций по индикатору Accumulation/Distribution, которые увеличивает объем накопленных позиций после зеленых свечей и уменьшает после красных</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.accum.color}`" class="w-4 h-4 rounded-full"></div>
@@ -220,7 +212,7 @@
                                 </div>
                                 <div>{{ selectedStock.accumDiff }}</div>
                             </main>
-                            <main class="grid grid-cols-3 py-3 border-b border-black">
+                            <main class="grid grid-cols-3 py-3 border-b border-black transition duration-200 hover:shadow-y">
                                 <div class="has-tooltip">Сила тренда<span class="tooltip text-white">Рассчитывается на основании последовательного направления, чем больше свечей в пользу конкретного направления, тем сильнее показатели тренда, используется индикатор ADX</span></div>
                                 <div class="flex space-x-1 items-center font-ttnorms">
                                     <div :style="`background-color: ${selectedStock.adx.color}`" class="w-4 h-4 rounded-full"></div>
@@ -263,17 +255,22 @@
 			    <div v-if="width < 600" id="tv" class="w-full h-64 md:hidden mt-5"></div>	
 
                 <div v-if="selectedStock" class="md:hidden">
-                    <h1 class="font-benzin-bold text-xl my-5">События и фон</h1>
-                    <div class="flex justify-between py-3 border-b border-black font-semibold">
-                        <p>Тип</p>
-                        <p>Потенциал</p>
-                    </div>
-                    <div v-for="(i, index) in selectedStock.news" :key="index" class="font-ttnorms py-3 border-b border-black">
-                        <div class="flex justify-between">
-                            <p>{{i.type}}</p>
-                            <p>{{i.potential}}</p>
+                    <h1 v-if="selectedStock.news.length" class="font-benzin-bold text-xl mb-5 mt-12">Новости и фон</h1> 
+                    <div v-if="selectedStock.news.length">
+                        <div v-for="(i, index) in selectedStock.news" :key="index" class="py-5 border-light-purple border-b">
+                            <h1 class="font-benzin-semibold text-sm">Новость:</h1>
+                            <p class="mt-3">{{i.text}}</p>
+                            <div class="space-y-3 mt-5">
+                                <div class="flex justify-between">
+                                    <p class="font-benzin-semibold text-sm">Тип</p>
+                                    <p>{{i.type}}</p>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="font-benzin-semibold text-sm">Потенциал роста</p>
+                                    <p>{{i.potential}}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>{{i.text}}</div>
                     </div>
 
                    <h1 class="font-benzin-bold text-xl my-5">Фундаментальные показатели</h1>
@@ -362,7 +359,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.levels.sectorDiff}}</div>
                             </div> 
                         </div>
@@ -377,7 +374,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.fibo.sectorDiff}}</div>
                             </div> 
                         </div>
@@ -392,7 +389,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.stoch.sectorDiff}}</div>
                             </div> 
                         </div>
@@ -407,7 +404,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.stoch.sectorDiff}}</div>
                             </div> 
                         </div>
@@ -425,7 +422,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.highLowsDiff}}</div>
                             </div> 
                         </div>
@@ -440,7 +437,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.smaEmaDiff}}</div>
                             </div> 
                         </div>
@@ -455,7 +452,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.accumDiff}}</div>
                             </div> 
                         </div>
@@ -470,7 +467,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-between pb-3">
-                                <div>Отличие от сектора</div>
+                                <div>Комментарий</div>
                                 <div>{{selectedStock.adxDiff}}</div>
                             </div> 
                         </div>
@@ -525,16 +522,13 @@ export default defineComponent({
                     })
                     selectedStock.value = myStock[0]
                     if (route.name == 'Analytics') {
-                        console.log('this part gone wild')
-                        getStockTV(myStock[0].id)
-                        // embedChart(myStock[0].id)
+                        // getStockTV(myStock[0].id)
+                        embedChart(myStock[0].id)
                     }
                 } else {
                     selectedStock.value = stocks.value[0]
-                    console.log('hello there', route.name)
                     if (route.name == 'Analytics') {
-                        getStockTV(stocks.value[0].id)
-                        // embedChart(stocks.value[0].id)
+                        embedChart(stocks.value[0].id)
                     }
                 }
             } catch (error) {}
@@ -543,8 +537,8 @@ export default defineComponent({
         watch(selectedStock, () => {
             if (!!document.getElementById('tv')) {
                 if (route.name == 'Analytics') {
-                    getStockTV(selectedStock.value.id)
-                    // embedChart(selectedStock.value.id)
+                    // getStockTV(selectedStock.value.id)
+                    embedChart(selectedStock.value.id)
                 }
             }
         })

@@ -211,14 +211,12 @@
                   <header class="grid grid-cols-4 py-2 font-benzin-semibold">
                       <h1>Индикатор</h1>
                       <h1>Параметр</h1>
-                      <h1>Изменение</h1>
-                      <h1>Потенциал</h1>
+                      <h1>Комментарий</h1>
                   </header>
                   <main v-for="(i, index) in sector.fund" :key="index" class="grid grid-cols-4 py-1">
                     <p>{{i.name}}</p>
                     <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.param" type="text">
-                    <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.change" type="text">
-                    <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.potential" type="text">
+                    <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.change" type="text">
                   </main>
                   <div>
                     <p>В целом</p>
@@ -235,14 +233,12 @@
                   <header class="grid grid-cols-4 py-2 font-benzin-semibold">
                       <h1>Индикатор</h1>
                       <h1>Параметр</h1>
-                      <h1>Изменение</h1>
-                      <h1>Потенциал</h1>
+                      <h1>Комментарий</h1>
                   </header>
                   <main v-for="(i, index) in sector.tech" :key="index" class="grid grid-cols-4 py-1">
                     <p>{{i.name}}</p>
                     <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.param" type="text">
-                    <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.change" type="text">
-                    <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.potential" type="text">
+                    <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.change" type="text">
                   </main>
                   <div>
                     <p>В целом</p>

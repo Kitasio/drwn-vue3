@@ -35,9 +35,9 @@
 						<div class="font-benzin-semibold text-sm mt-4">Источники риска</div>
 						<div class="flex justify-between mt-2">
 							<div class="flex space-x-2 items-center font-benzin-semibold text-sm text-white">
-								<div v-if="stock.techSum.color != '#AD92B7'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.techSum.color}`">Т.А</div>
-								<div v-if="stock.fundSum.color != '#AD92B7'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.fundSum.color}`">Ф.А</div>
-								<div v-if="stock.contextSum.color != '#AD92B7'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.contextSum.color}`">Фон</div>
+								<div v-if="stock.techSum.color != '#00FF4A'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.techSum.color}`">Т.А</div>
+								<div v-if="stock.fundSum.color != '#00FF4A'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.fundSum.color}`">Ф.А</div>
+								<div v-if="stock.contextSum.color != '#00FF4A'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.contextSum.color}`">Фон</div>
 							</div>
 						</div>
 						<div class="font-benzin-semibold text-sm mt-4">Рекомендации</div>
@@ -119,7 +119,7 @@
 								<div>
 									<p>{{ stock.recommendation.text}}</p>
 								</div>
-							<div class="text-sm text-purple cursor-pointer whitespace-nowrap">+ Подписаться</div>
+							<Sub :ticker="stock.ticker" class="text-sm text-purple cursor-pointer whitespace-nowrap">+ Подписаться</Sub>
 							</div>
 							<p class="col-span-4 mt-2" v-if="stock.recommendation.show">{{ stock.recommendation.comment}}</p>
 						</main>
@@ -137,10 +137,10 @@
 							<div class="align-bottom" v-if="suggestionSent">Спасибо, ваше предложение отправлено</div>
 						</div>
 						<div class="flex justify-center">
-							<div class="flex space-x-4 cursor-pointer py-2 px-4 w-42 bg-purple rounded-md self-center">
+							<Sub ticker="рассылку" class="flex space-x-4 cursor-pointer py-2 px-4 w-42 bg-purple rounded-md self-center">
 								<img class="w-5" src="../assets/icons/mail.svg" alt="">
 								<p class="text-white leading-5">Подписаться <br>на рассылку</p>
-							</div>
+							</Sub>
 						</div>
 					</div>
 				</div>
@@ -158,9 +158,10 @@ import { ref, defineComponent, onMounted } from 'vue'
 import StockLinks from '../components/StockLinks.vue'
 import StockNav from '../components/StockNav.vue'
 import { analytics } from '../composables/fireConf'
+import Sub from '../components/Sub.vue'
 
 export default defineComponent({
-  components: { StockLinks, StockNav },
+  components: { StockLinks, StockNav, Sub },
 	setup() {
         const { stocks, stock, getStocks, addSuggestion, suggestion, suggestionSent, addTgVisitor, features, getFeatures } = stockFuncs()
         getStocks()

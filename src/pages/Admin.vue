@@ -126,6 +126,25 @@
                         </div>
                     </div>
                 </tab>
+                <tab title="Подписки">
+                    <header class="grid grid-cols-3 gap-5">
+                        <h1>Время</h1>
+                        <h1>Тикер</h1>
+                        <h1>Email</h1>
+                    </header>
+                    <main v-for="s in subs" :key="s.id" class="grid grid-cols-3 gap-5">
+                        <div>{{ getDate(s.createdAt.seconds) }}</div>
+                        <div>{{ s.sub.ticker }}</div>
+                        <div class=" flex items-center space-x-10">
+                            <p class="select-all">{{ s.sub.email }}</p>
+                            <div @click="deleteSub(s.id)" class="text-base-red cursor-pointer text-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                    </main>
+                </tab>
                 <tab title="Запросы">
                     <table>
                         <thead>
@@ -187,6 +206,8 @@ import StockNav from '../components/StockNav.vue'
 import Tab from '../components/Tab.vue'
 import Tabs from '../components/Tabs.vue'
 import sectorFuncs from '../composables/sectorFuncs'
+import subFuncs from '../composables/subFuncs'
+
 export default defineComponent({
   components: { StockNav, Tab, Tabs },
     setup() {
@@ -194,8 +215,10 @@ export default defineComponent({
         const router = useRouter()
         const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions, deleteSuggestion, tgVisitors, deleteTgVisitor, getTgVisitors, feature, features, getFeatures, addFeature, deleteFeature } = stockFuncs()
         const { sectors, getSectors, deleteSector } = sectorFuncs()
+        const { getSubs, subs, deleteSub } = subFuncs()
         getStocks()
         getSectors()
+        getSubs()
         getSuggestions()
         getTgVisitors()
         getFeatures()
@@ -235,7 +258,7 @@ export default defineComponent({
             '',
         ])
 
-        return { deleteSector, sectors, feature, features, getFeatures, addFeature, deleteFeature, tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
+        return { getSubs, subs, deleteSub, deleteSector, sectors, feature, features, getFeatures, addFeature, deleteFeature, tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
     },
 })
 </script>
