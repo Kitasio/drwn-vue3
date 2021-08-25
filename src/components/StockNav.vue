@@ -20,8 +20,11 @@
             </div>
         </div>
         <div v-if="toggleBurger" class="mb-5 text-xl font-ttnorms">
+            <router-link to="/profile">
+                <div class="text-white py-3">Мой кабинет</div>
+            </router-link>
             <router-link to="/client">
-                <div class="text-white py-3">Мои акции</div>
+                <div class="text-white py-3">Портфель</div>
             </router-link>
             <router-link to="/analytics">
                 <div class="text-white py-3">Аналитика</div>

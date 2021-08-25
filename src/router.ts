@@ -21,6 +21,7 @@ import NewSector from './pages/NewSector.vue'
 import SectorID from './pages/SectorID.vue'
 import Sectors from './pages/Sectors.vue'
 import Sector from './pages/Sector.vue'
+import Profile from './pages/Profile.vue'
 
 const routes = [
     {
@@ -73,6 +74,7 @@ const routes = [
         path: '/admin',
         name: 'Admin',
         component: Admin,
+        meta: { requiresAuth: true },
     },
     {
         path: '/admin/:id',
@@ -93,11 +95,13 @@ const routes = [
         path: '/client',
         name: 'Client',
         component: Client,
+        meta: { requiresAuth: true },
     },
     {
         path: '/analytics',
         name: 'Analytics',
         component: Analytics,
+        meta: { requiresAuth: true },
     },
     {
         path: '/calc',
@@ -124,17 +128,58 @@ const routes = [
         name: 'Sector',
         component: Sector,
     },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: { requiresAuth: true },
+    },
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 })
-router.beforeEach((to, from, next) => {
-    auth.onAuthStateChanged(user => {
-        if (to.name === 'Admin' && !user) next({ name: 'Login'})
-        else next()
+const currentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            unsubscribe();
+            resolve(user);
+        }, reject)
     })
-})
+}
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const user: any = await currentUser()
+
+  if (user) {
+    if (to.name == 'Admin' && user.email != 'admin@drwn.biz') {
+        next('client')
+    } else if (requiresAuth && !user.emailVerified) {
+        next('login')
+    } else {
+        next()
+    }
+  } else if (requiresAuth && !user){
+      next('login')
+  } else {
+      next()
+  }
+
+//   if (user) {
+//       if (requiresAuth && !user.emailVerified) {
+//           next('login')
+//       } else {
+//           next()
+//       }
+//   }
+
+//   if (requiresAuth && !user){
+//     next('login');
+//   } else{
+//     next()
+//   }
+});
+
 
 export default router

@@ -24,7 +24,7 @@
 							</div>	
 							<div class="font-benzin-bold text-lg uppercase">#{{stock.ticker}}</div>
 						</div>
-						<div class="text-sm text-purple cursor-pointer">+ Подписаться</div>
+						<Sub :ticker="stock.ticker" class="text-sm text-purple cursor-pointer whitespace-nowrap">+ Подписаться</Sub>
 					</div>
 					<router-link :to="{ name: 'Analytics', params: { id: stock.id }}">
 						<div class="font-benzin-semibold text-sm mt-4">Сектор</div>
@@ -57,10 +57,10 @@
 			</div>
 			<div v-if="suggestionSent">Спасибо, ваше предложение отправлено</div>
 			<div class="flex justify-center">
-				<div class="my-5 flex space-x-4 cursor-pointer py-2 px-4 w-42 bg-purple rounded-md self-center">
+				<Sub ticker="рассылку" class="flex space-x-4 cursor-pointer py-2 px-4 w-42 bg-purple rounded-md self-center">
 					<img class="w-5" src="../assets/icons/mail.svg" alt="">
-					<p class="text-white">Подписаться <br>на рассылку</p>
-				</div>
+					<p class="text-white leading-5">Подписаться <br>на рассылку</p>
+				</Sub>
 			</div>
 		</div>
 

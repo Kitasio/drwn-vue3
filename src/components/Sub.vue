@@ -31,7 +31,7 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              class="inline-block grad text-white w-full max-w-xl p-20 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
+              class="inline-block grad text-white w-full max-w-xl p-5 lg:p-20 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
             >
               <DialogTitle
                 as="h3"
