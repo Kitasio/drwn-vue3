@@ -28,7 +28,7 @@
                                     :key="stock"
                                     :value="stock"
                                 >
-                                    <div v-if="stock != selectedStock" class="flex py-2 space-x-2 items-center cursor-pointer border-b border-light-purple">
+                                    <div @click="logTicker(stock.ticker)" v-if="stock != selectedStock" class="flex py-2 space-x-2 items-center cursor-pointer border-b border-light-purple">
                                         <img class="w-8" :src="stock.logo" alt="">
                                         <div class="font-benzin-semibold">#{{ stock.ticker }}</div>
                                     </div>
@@ -493,6 +493,7 @@ import {
 import Tab from '../components/Tab.vue'
 import Tabs from '../components/Tabs.vue'
 import useBreakpoints from '../composables/useBreakpoints'
+import { analytics } from '../composables/fireConf'
 
 export default defineComponent({
   components: { 
@@ -511,6 +512,10 @@ export default defineComponent({
         const { stocks, stock, getStocks, getStockTV, embedChart } = stockFuncs()
         getStocks()
         const activeTab = ref(0)
+
+		const logTicker = (ticker: string) => {
+			analytics.logEvent("select_stock_dropdown", {ticker: ticker})
+		}
 
         const selectedStock = ref<any>('')
         watchEffect(() => {
@@ -558,6 +563,7 @@ export default defineComponent({
             width,
             type,
             embedChart,
+            logTicker,
         }
 	},
 })

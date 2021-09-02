@@ -20,13 +20,13 @@
                         leave-from-class="transform scale-100 opacity-100"
                         leave-to-class="transform scale-95 opacity-0"
                         >
-                            <ListboxOptions class="absolute mt-2 z-10 bg-white w-40 py-2 px-3 border-2 border-black rounded-md">
+                            <ListboxOptions class="absolute mt-2 z-10 bg-white py-2 px-3 border-2 border-black rounded-md">
                                 <ListboxOption
                                     v-for="sector in sectors"
                                     :key="sector"
                                     :value="sector"
                                 >
-                                    <div v-if="sector != selectedSector" class="flex py-2 space-x-2 items-center cursor-pointer border-b border-black">
+                                    <div @click="logSector(sector.name)" v-if="sector != selectedSector" class="flex py-2 space-x-2 items-center cursor-pointer border-b border-black">
                                         <div class="font-benzin-semibold">{{ sector.name }}</div>
                                     </div>
                                 </ListboxOption>
@@ -72,17 +72,18 @@
                         </tab>
                         <tab title="Факторы влияния">
                             <h1 v-if="selectedSector.factors.length" class="font-benzin-bold text-xl my-5">Факторы влияния</h1> 
-                            <header class="grid grid-cols-4 gap-5 border-b py-3 border-black text-sm font-benzin-semibold">
+                            <header class="grid grid-cols-3 gap-5 border-b py-3 border-black text-sm font-benzin-semibold">
                                 <h1>Факторы</h1>
                                 <h1>Корреляция</h1>
                                 <h1>Потенциал роста<br> сектора, в %</h1>
-                                <h1>Продолжительность<br> роста в неделях</h1>
                             </header>
-                            <main class="grid grid-cols-4 gap-5 border-black border-b py-3 transition duration-200 hover:shadow-y" v-for="(i, index) in selectedSector.factors" :key="index">
-                                <p>{{i.name}}</p>
-                                <p>{{i.corr}}</p>
-                                <p>{{i.potential}}</p>
-                                <p>{{i.longevity}}</p>
+                            <main class="grid grid-cols-3 gap-5 border-black border-b py-3 transition duration-200 hover:shadow-y" v-for="(i, index) in selectedSector.factors" :key="index">
+                                <p v-if="hasAccess() || index == 0 || index == 1">{{i.name}}</p>
+                                <Star v-else class="has-tooltip text-sm">Подпишитесь на тариф “Трейдер” чтобы открыть</Star>
+                                <p v-if="hasAccess() || index == 0">{{i.corr}}</p>
+                                <Star v-else class="has-tooltip text-sm">Подпишитесь на тариф “Трейдер” чтобы открыть</Star>
+                                <p v-if="hasAccess() || index == 0">{{i.potential}}</p>
+                                <Star v-else class="has-tooltip text-sm">Подпишитесь на тариф “Трейдер” чтобы открыть</Star>
                             </main>
 
                             <header class="mt-5 grid grid-cols-2 border-b py-3 border-black text-sm font-benzin-semibold">
@@ -123,13 +124,24 @@
                             <h1 v-if="selectedSector.fund.length" class="font-benzin-bold text-xl my-5">Фундаментальный анализ</h1> 
                             <header class="mt-5 grid grid-cols-4 gap-5 border-b py-3 border-black text-sm font-benzin-semibold">
                                 <h1>Индикатор</h1>
-                                <h1>Параметр</h1>
+                                <div>
+                                    
+                                    <h1>Параметр</h1>
+                                </div>
                                 <h1 class="col-span-2">Комментарий</h1>
                             </header>
                             <main class="grid grid-cols-4 border-black border-b py-3 gap-5 transition duration-200 hover:shadow-y" v-for="(i, index) in selectedSector.fund" :key="index">
                                 <p class="has-tooltip">{{i.nameRu}}<span v-if="i.tooltip" class="tooltip text-white">{{i.tooltip}}</span></p>
-                                <p>{{i.param}}</p>
-                                <p class="col-span-2">{{i.change}}</p>
+                                <div v-if="hasAccess() || index == 0 || index == 1 || index == 2 || index == 4 || index == 5 || index == 6" class="flex space-x-2 items-center">
+                                    <svg v-if="i.paramColor" class="w-4 h-4" :fill="i.paramColor" style="min-width: 1rem;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <p>{{i.param}}</p>
+                                </div>
+                                <Star v-else></Star>
+                                
+                                <p v-if="hasAccess() || index == 0 || index == 2" class="col-span-2">{{i.change}}</p>
+                                <Star v-else>Подпишитесь на тариф “Трейдер” чтобы открыть</Star>
                             </main>
                         </tab>
                         <tab title="Тех, анализ">
@@ -141,8 +153,15 @@
                             </header>
                             <main class="grid grid-cols-4 border-black border-b py-3 gap-5 transition duration-200 hover:shadow-y" v-for="(i, index) in selectedSector.tech.slice(0, 4)" :key="index">
                                 <p class="has-tooltip">{{i.nameRu}}<span v-if="i.tooltip" class="tooltip text-white">{{i.tooltip}}</span></p>
-                                <p>{{i.param}}</p>
-                                <p class="col-span-2">{{i.change}}</p>
+                                <div v-if="hasAccess() || index != 3" class="flex space-x-2 items-center">
+                                    <svg v-if="i.paramColor" class="w-4 h-4" :fill="i.paramColor" style="min-width: 1rem;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <p>{{i.param}}</p>
+                                </div>
+                                <Star v-else />
+                                <p v-if="hasAccess() || index != 3" class="col-span-2">{{i.change}}</p>
+                                <Star v-else />
                             </main>
 
                             <header class="mt-5 grid grid-cols-4 gap-5 border-b py-3 border-black text-sm font-benzin-semibold">
@@ -150,8 +169,15 @@
                             </header>
                             <main class="grid grid-cols-4 border-black border-b py-3 gap-5 transition duration-200 hover:shadow-y" v-for="(i, index) in selectedSector.tech.slice(4)" :key="index">
                                 <p class="has-tooltip">{{i.nameRu}}<span v-if="i.tooltip" class="tooltip text-white">{{i.tooltip}}</span></p>
-                                <p>{{i.param}}</p>
-                                <p class="col-span-2">{{i.change}}</p>
+                                <div v-if="hasAccess() || index == 0" class="flex space-x-2 items-center">
+                                    <svg v-if="i.paramColor" class="w-4 h-4" :fill="i.paramColor" style="min-width: 1rem;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="50" cy="50" r="50"/>
+                                    </svg>
+                                    <p>{{i.param}}</p>
+                                </div>
+                                <Star v-else />
+                                <p v-if="hasAccess() || index == 0" class="col-span-2">{{i.change}}</p>
+                                <Star v-else />
                             </main>
                         </tab>
                     </tabs>
@@ -195,15 +221,13 @@
                             <div class="space-y-3">
                                 <div class="flex justify-between">
                                     <p class="text-sm ">Корреляция</p>
-                                    <p>{{i.corr}}</p>
+                                    <p v-if="hasAccess() || index == 0">{{i.corr}}</p>
+                                    <Star v-else />
                                 </div>
                                 <div class="flex justify-between">
                                     <p class="text-sm ">Потенциал роста</p>
-                                    <p>{{i.potential}}</p>
-                                </div>
-                                <div class="flex justify-between">
-                                    <p class="text-sm ">Продолжительность роста</p>
-                                    <p>{{i.longevity}}</p>
+                                    <p v-if="hasAccess() || index == 0">{{i.potential}}</p>
+                                    <Star v-else />
                                 </div>
                             </div>
                         </div>
@@ -262,11 +286,18 @@
                             <div class="space-y-3">
                                 <div class="flex justify-between">
                                     <p class="text-sm">Параметр</p>
-                                    <p>{{i.param}}</p>
+                                    <div v-if="hasAccess() || index == 0 || index == 1 || index == 2 || index == 4 || index == 5 || index == 6" class="flex space-x-2 items-center">
+                                        <svg v-if="i.paramColor" class="w-4 h-4" :fill="i.paramColor" style="min-width: 1rem;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="50" cy="50" r="50"/>
+                                        </svg>
+                                        <p>{{i.param}}</p>
+                                    </div>
+                                    <Star v-else></Star>
                                 </div>
                                 <div class="space-y-2">
                                     <p class="text-sm">Комментарий: </p>
-                                    <p>{{i.change}}</p>
+                                    <p v-if="hasAccess() || index == 0 || index == 2">{{i.change}}</p>
+                                    <Star v-else>Подпишитесь на тариф “Трейдер” чтобы открыть</Star>
                                 </div>
                             </div>
                         </div>
@@ -279,11 +310,18 @@
                             <div class="space-y-3">
                                 <div class="flex justify-between">
                                     <p class="text-sm">Параметр</p>
-                                    <p>{{i.param}}</p>
+                                    <div v-if="hasAccess() || index != 3 && index != 5 && index != 6 && index != 7" class="flex space-x-2 items-center">
+                                        <svg v-if="i.paramColor" class="w-4 h-4" :fill="i.paramColor" style="min-width: 1rem;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="50" cy="50" r="50"/>
+                                        </svg>
+                                        <p>{{i.param}}</p>
+                                    </div>
+                                    <Star v-else />
                                 </div>
                                 <div class="space-y-2">
                                     <p class="text-sm">Комментарий: </p>
-                                    <p>{{i.change}}</p>
+                                    <p v-if="hasAccess() || index != 3 && index != 5 && index != 6 && index != 7">{{i.change}}</p>
+                                    <Star v-else />
                                 </div>
                             </div>
                         </div>
@@ -309,6 +347,9 @@ import useBreakpoints from '../composables/useBreakpoints'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, defineComponent, onMounted, watchEffect, watch } from 'vue'
 import sectorFuncs from '../composables/sectorFuncs'
+import { analytics } from '../composables/fireConf'
+import authFuncs from '../composables/authFuncs'
+import Star from '../components/Star.vue'
 
 export default defineComponent({
     components: {
@@ -320,13 +361,22 @@ export default defineComponent({
         ListboxOption,
         Tab,
         Tabs,
+        Star,
     },
     setup() {
         const { width, type } = useBreakpoints()
         const route = useRoute()
         const { sector, sectors, getSector, getSectors, ideaChart } = sectorFuncs()
         getSectors()
+
+        const { dbUser, getUser, user, hasAccess } = authFuncs()
+        getUser()
+
         const activeTab = ref(0)
+
+		const logSector = (name: string) => {
+			analytics.logEvent("select_sector_dropdown", {name: name})
+		}
 
         const selectedSector = ref<any>('')
         watchEffect(() => {
@@ -369,6 +419,9 @@ export default defineComponent({
             activeTab,
             width,
             type,
+            logSector,
+            dbUser,
+            hasAccess,
         }
     },
 })

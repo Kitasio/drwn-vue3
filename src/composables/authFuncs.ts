@@ -1,16 +1,48 @@
 import { ref } from "vue"
-import { auth, storage } from "./fireConf"
+import { auth, storage, db } from "./fireConf"
 
 const authFuncs = () => {
-    const user = ref<any>(null)
+    const user = ref<any>('')
+    const dbUser = ref<any>('')
     const file = ref(null)
+    const passwordUpdated = ref(false)
+    const passwordUpdatedError = ref(false)
 
     const getUser = () => {
         auth.onAuthStateChanged(u => {
             if (u) {
                 user.value = u
+                const docRef = db.collection('users').doc(u.uid)
+                docRef.get().then(doc => {
+                    if (doc.exists) {
+                        dbUser.value = doc.data()
+                    }
+                })
             }
         })
+    }
+
+    const hasAccess = () => {
+        if (user.value.email == 'admin@drwn.biz') {
+            return user
+        }
+
+        if (dbUser.value.subscriptionUpdated) {
+            // var options: any = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            let expiration = new Date((dbUser.value.subscriptionUpdated.seconds + (3600 * 24)) * 1000)
+            expiration.setMonth(expiration.getMonth() + 1)
+            let today = new Date();
+            console.log(expiration)
+
+            
+
+            if (today > expiration) {
+                console.log("send request to cloudpayments and update the timestamp and subscribtion to false if not active")
+                // if status != active then DELETE the dbUser.value.subscriptionUpdated AND set dbUser.value.subscriber to false
+            } else {
+                return dbUser.value.subscriber
+            }
+        }
     }
 
     const updateName = (userName: string) => {
@@ -24,6 +56,15 @@ const authFuncs = () => {
             }).catch((error) => {
                 console.log(error)
             }); 
+        }
+    }
+
+    const newPassword = (pass: string) => {
+        const user = auth.currentUser
+        if (user) {
+            user.updatePassword(pass)
+            .then(() => passwordUpdated.value = true)
+            .catch((error) => passwordUpdatedError.value = true)
         }
     }
 
@@ -54,7 +95,7 @@ const authFuncs = () => {
     
 
     const uploadImage = async (file: any) => {
-        const filePath = `icons/${file.name}`
+        const filePath = `avatars/${file.name}`
         const storageRef = storage.ref(filePath)
 
         try {
@@ -68,10 +109,15 @@ const authFuncs = () => {
 
     return {
         user,
+        dbUser,
         getUser,
         handleChange,
         updateName,
         logout,
+        newPassword,
+        passwordUpdated,
+        passwordUpdatedError,
+        hasAccess,
     }
 }
 

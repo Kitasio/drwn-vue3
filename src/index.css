@@ -34,6 +34,14 @@
 .grad {
     background: linear-gradient(78.15deg, #2A063F 0%, #6E00AD 19.79%, #440E60 47.95%, #2A063F 100%);
 }
+.grad-pink {
+    background : linear-gradient(78.15deg, #EA4695 0%, #C20098 19.79%, #600E4E 47.95%, #CC22BB 100%);
+}
+.grad-black {
+    background : linear-gradient(78.15deg, #000000 0%, #6F6F6F 19.79%, #323232 47.95%, #000000 100%);
+}
+
+
 
 .page-enter-active,
 .page-leave-active {

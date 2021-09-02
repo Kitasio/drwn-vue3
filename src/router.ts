@@ -22,6 +22,7 @@ import SectorID from './pages/SectorID.vue'
 import Sectors from './pages/Sectors.vue'
 import Sector from './pages/Sector.vue'
 import Profile from './pages/Profile.vue'
+import Tariffs from './pages/Tariffs.vue'
 
 const routes = [
     {
@@ -95,7 +96,7 @@ const routes = [
         path: '/client',
         name: 'Client',
         component: Client,
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: '/analytics',
@@ -122,16 +123,24 @@ const routes = [
         path: '/sectors',
         name: 'Sectors',
         component: Sectors,
+        // meta: { requiresAuth: true },
     },
     {
         path: '/sector',
         name: 'Sector',
         component: Sector,
+        meta: { requiresAuth: true },
     },
     {
         path: '/profile',
         name: 'Profile',
         component: Profile,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/tariffs',
+        name: 'Tariffs',
+        component: Tariffs,
         meta: { requiresAuth: true },
     },
 ]
@@ -140,6 +149,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 })
+
 const currentUser = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -148,37 +158,28 @@ const currentUser = () => {
         }, reject)
     })
 }
+
 router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const user: any = await currentUser()
 
-  if (user) {
-    if (to.name == 'Admin' && user.email != 'admin@drwn.biz') {
-        next('client')
-    } else if (requiresAuth && !user.emailVerified) {
-        next('login')
-    } else {
-        next()
-    }
-  } else if (requiresAuth && !user){
+  if (requiresAuth && !user) {
       next('login')
+  } else if (requiresAuth && user) {
+      if (to.name === 'Admin' && user.email !== 'admin@drwn.biz') {
+          next('login')
+      } else {
+          next()
+      }
+
+      if (!user.emailVerified) {
+          next('login')
+      } else {
+          next()
+      }
   } else {
       next()
   }
-
-//   if (user) {
-//       if (requiresAuth && !user.emailVerified) {
-//           next('login')
-//       } else {
-//           next()
-//       }
-//   }
-
-//   if (requiresAuth && !user){
-//     next('login');
-//   } else{
-//     next()
-//   }
 });
 
 

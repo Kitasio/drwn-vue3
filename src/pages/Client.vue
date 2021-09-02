@@ -1,6 +1,6 @@
 <template>
+	<TutClient v-if="haventSeenTut() && !user" />
 	<stock-nav></stock-nav>
-
     <div class="md:h-screen font-ttnorms p-5 sm:p-10 lg:px-32 mx-auto">
 		<!-- MOBILE -->
     	<div class="md:hidden">
@@ -26,7 +26,7 @@
 						</div>
 						<Sub :ticker="stock.ticker" class="text-sm text-purple cursor-pointer whitespace-nowrap">+ Подписаться</Sub>
 					</div>
-					<router-link :to="{ name: 'Analytics', params: { id: stock.id }}">
+					<router-link @click="logTicker(stock.ticker)" :to="{ name: 'Analytics', params: { id: stock.id }}">
 						<div class="font-benzin-semibold text-sm mt-4">Сектор</div>
 						<div class="flex space-x-2 items-center">
 							<div class="w-4 h-4 rounded-full" :style="`background-color: ${stock.sector.color}`"></div>
@@ -93,7 +93,7 @@
 									<img v-if="!stock.recommendation.show" class="w-5" src="../assets/icons/chevron-right.svg" alt="">
 									<img v-else class="w-5" src="../assets/icons/chevron-down.svg" alt="">
 								</div>
-								<router-link class="flex items-center" :to="{ name: 'Analytics', params: { id: stock.id }}">
+								<router-link @click="logTicker(stock.ticker)" class="flex items-center" :to="{ name: 'Analytics', params: { id: stock.id }}">
 									<div class="flex space-x-3 items-center">
 										<img class="w-10 my-auto" :src="stock.logo" alt="">
 										<div class="font-benzin-bold">#{{ stock.ticker }}</div>
@@ -145,8 +145,6 @@
 					</div>
 				</div>
 			</div>
-
-			
 		</div>
     </div>
 </template>
@@ -157,13 +155,17 @@ import { useRouter } from 'vue-router'
 import { ref, defineComponent, onMounted } from 'vue'
 import StockLinks from '../components/StockLinks.vue'
 import StockNav from '../components/StockNav.vue'
+import TutClient from '../components/TutClient.vue'
 import { analytics } from '../composables/fireConf'
 import Sub from '../components/Sub.vue'
+import authFuncs from '../composables/authFuncs'
 
 export default defineComponent({
-  components: { StockLinks, StockNav, Sub },
+  components: { StockLinks, StockNav, Sub, TutClient, },
 	setup() {
         const { stocks, stock, getStocks, addSuggestion, suggestion, suggestionSent, addTgVisitor, features, getFeatures } = stockFuncs()
+		const { user, getUser } = authFuncs()
+		getUser()
         getStocks()
 		getFeatures()
 
@@ -173,12 +175,21 @@ export default defineComponent({
 			addTgVisitor()
 		})
 
-		// const testLog = () => {
-		// 	analytics.logEvent("notification_received", { myParam: "кто-то нажал подписаться"})
-		// }
+		const logTicker = (ticker: string) => {
+			analytics.logEvent("select_stock", {ticker: ticker})
+		}
+
+		const slideOne = ref(true)
 		
 		const toggleFeatures = ref(false)
 		const toggleRec = ref(false)
+		
+		const haventSeenTut = () => {
+			const tut = localStorage.getItem('tutClient')
+			if (!tut) {
+				return true
+			} 
+		}
 
         return {
         	stocks,
@@ -188,10 +199,13 @@ export default defineComponent({
 			addSuggestion,
 			suggestion,
 			suggestionSent,
-			// testLog,
+			logTicker,
 			features,
 			toggleFeatures,
 			toggleRec,
+			slideOne,
+			haventSeenTut,
+			user,
         }
 	}
 })

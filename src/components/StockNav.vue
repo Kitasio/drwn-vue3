@@ -18,6 +18,9 @@
                     <img class="w-5 h-5" :src="img.img" alt="">
                 </a>
             </div>
+            <div class="hidden md:flex">
+                <router-link class="font-benzin-semibold text-sm text-light-purple hover:text-base-green transition duration-200" to="/login">Вход</router-link>
+            </div>
         </div>
         <div v-if="toggleBurger" class="mb-5 text-xl font-ttnorms">
             <router-link to="/profile">
@@ -25,9 +28,6 @@
             </router-link>
             <router-link to="/client">
                 <div class="text-white py-3">Портфель</div>
-            </router-link>
-            <router-link to="/analytics">
-                <div class="text-white py-3">Аналитика</div>
             </router-link>
             <router-link to="/sectors">
                 <div class="text-white py-3">Сектора</div>

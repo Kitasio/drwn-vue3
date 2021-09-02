@@ -25,9 +25,10 @@
             <h1 class="font-benzin-semibold mt-5 text-center">Пройдите регистрацию</h1>
             <form @submit.prevent="register" class="space-y-5 mt-5 font-benzin-semibold md:w-2/3 mx-auto">
                 <input v-model="email" type="email" class="rounded w-full bg-transparent border-2 border-light-purple placeholder-light-purple focus:placeholder-base-green focus:ring-0 focus:border-base-green" placeholder="Введите почту">
-                <input v-model="password" type="password" class="rounded w-full bg-transparent border-2 border-light-purple placeholder-light-purple focus:placeholder-base-green focus:ring-0 focus:border-base-green" placeholder="Пароль">
+                <input v-model="testPass" type="password" :class="{'focus:border-base-red': !checkPass}" class="rounded w-full bg-transparent border-2 border-light-purple placeholder-light-purple focus:placeholder-base-green focus:ring-0 focus:border-base-green" placeholder="Пароль (8 или более символов)">
+                <input v-model="password" type="password" :class="{'focus:border-base-red': !checkPass}" class="rounded w-full bg-transparent border-2 border-light-purple placeholder-light-purple focus:placeholder-base-green focus:ring-0 focus:border-base-green" placeholder="Повторите пароль">
                 <div class="flex mt-3 justify-center">
-                    <button class="px-5 py-3 rounded border-2 border-light-purple hover:border-base-green text-light-purple hover:text-base-green transition duration-200" type="submit">Регистрация</button>
+                    <button :disabled="!checkPass" class="px-5 py-3 rounded border-2 border-light-purple hover:border-base-green text-light-purple hover:text-base-green transition duration-200" type="submit">Регистрация</button>
                 </div>
             </form>
           </div>
@@ -39,8 +40,9 @@
 </template>
 
 <script>
-import { auth } from '../composables/fireConf'
+import { auth, db, ts } from '../composables/fireConf'
 import StockNav from '../components/StockNav.vue'
+import { computed } from '@vue/runtime-core'
 export default {
     components: {
         StockNav,
@@ -49,6 +51,7 @@ export default {
         return {
             email: '',
             password: '',
+            testPass: '',
             user: null,
 
             errorCode: null,
@@ -56,6 +59,11 @@ export default {
             toggleLogin: true,
             emailSent: false,
 
+        }
+    },
+    computed: {
+        checkPass: function() {
+            return this.password.length > 7 && this.password == this.testPass
         }
     },
     methods: {
@@ -85,7 +93,7 @@ export default {
             if (errorCode == 'auth/weak-password') {
                 alert('The password is too weak.');
             } else {
-                alert(errorMessage);
+                console.log(errorMessage);
             }
             console.log(error);
             });
@@ -96,7 +104,10 @@ export default {
             };
             auth.onAuthStateChanged(user => {
                 if (user) {
-                    console.log(user)
+                    db.collection('users').doc(user.uid).set({
+                        email: user.email,
+                        subscriber: false,
+                    })
                     this.user = user
                     user.sendEmailVerification(actionCodeSettings)
                     .then(() => {

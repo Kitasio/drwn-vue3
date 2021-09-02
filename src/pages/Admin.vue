@@ -207,6 +207,7 @@ import Tab from '../components/Tab.vue'
 import Tabs from '../components/Tabs.vue'
 import sectorFuncs from '../composables/sectorFuncs'
 import subFuncs from '../composables/subFuncs'
+import authFuncs from '../composables/authFuncs'
 
 export default defineComponent({
   components: { StockNav, Tab, Tabs },
@@ -216,6 +217,8 @@ export default defineComponent({
         const { stocks, stock, getStocks, addStock, updateStock, deleteStock, getSuggestions, suggestions, deleteSuggestion, tgVisitors, deleteTgVisitor, getTgVisitors, feature, features, getFeatures, addFeature, deleteFeature } = stockFuncs()
         const { sectors, getSectors, deleteSector } = sectorFuncs()
         const { getSubs, subs, deleteSub } = subFuncs()
+        const { getUser, dbUser, user } = authFuncs()
+        getUser()
         getStocks()
         getSectors()
         getSubs()
@@ -258,7 +261,7 @@ export default defineComponent({
             '',
         ])
 
-        return { getSubs, subs, deleteSub, deleteSector, sectors, feature, features, getFeatures, addFeature, deleteFeature, tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
+        return { user, dbUser, getSubs, subs, deleteSub, deleteSector, sectors, feature, features, getFeatures, addFeature, deleteFeature, tgVisitors, deleteTgVisitor, router, getDate, suggestions, deleteSuggestion, activeTab, stocks, stock, getStocks, updateStock, deleteStock, addStock, logout, stockParams }
     },
 })
 </script>

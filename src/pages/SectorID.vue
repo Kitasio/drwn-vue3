@@ -111,10 +111,6 @@
                         <h1>Потенциал роста, в %</h1>
                         <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="factor.potential" type="text">
                     </div>
-                    <div>
-                        <h1>Продолжительность роста в неделях</h1>
-                        <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="factor.longevity" type="text">
-                    </div>
                 </div>
                 <div class="flex cursor-pointer mt-3">
                     <div class="border-2 border-black rounded-md px-4 py-3" @click="pushFactor">Добавить фактор</div>
@@ -126,7 +122,6 @@
                                 <th class="text-left py-3">Факторы</th>
                                 <th class="text-left">Корреляция</th>
                                 <th class="text-left">Потенциал роста, в %</th>
-                                <th class="text-left">Продолжительность роста в неделях</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,7 +129,6 @@
                                 <td class="py-3">{{ s.name }}</td>
                                 <td>{{ s.corr }}</td>
                                 <td>{{ s.potential }}</td>
-                                <td>{{ s.longevity }}</td>
                                 <td @click="sector.factors.splice(index, 1)" class="text-base-red cursor-pointer text-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -215,7 +209,14 @@
                   </header>
                   <main v-for="(i, index) in sector.fund" :key="index" class="grid grid-cols-4 py-1">
                     <p>{{i.name}}</p>
-                    <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.param" type="text">
+                    <div class="flex space-x-2 items-center">
+                        <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.param" type="text">
+                        <div class="flex space-x-1">
+                            <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="i.paramColor">
+                            <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="i.paramColor">
+                            <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="i.paramColor">
+                        </div> 
+                    </div>
                     <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.change" type="text">
                   </main>
                   <div>
@@ -237,7 +238,14 @@
                   </header>
                   <main v-for="(i, index) in sector.tech" :key="index" class="grid grid-cols-4 py-1">
                     <p>{{i.name}}</p>
-                    <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.param" type="text">
+                    <div class="flex space-x-2 items-center">
+                        <input class="border-light-purple w-32 focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.param" type="text">
+                        <div class="flex space-x-1">
+                            <input class="bg-base-green w-5 h-5 focus:ring-2 text-base-green ring-base-green" type="radio" value="#00FF4A" id="green" v-model="i.paramColor">
+                            <input class="bg-base-red w-5 h-5 focus:ring-2 text-base-red ring-base-red" type="radio" value="#FF005C" id="red" v-model="i.paramColor">
+                            <input class="bg-base-yellow w-5 h-5 focus:ring-2 text-base-yellow ring-base-yellow" type="radio" value="#FBBC05" id="yellow" v-model="i.paramColor">
+                        </div> 
+                    </div>
                     <input class="border-light-purple w-full focus:border-light-purple focus:ring-0 border-2 rounded-md" v-model="i.change" type="text">
                   </main>
                   <div>
