@@ -81,13 +81,13 @@
 						</div>
 					</div>
 					<div class="mt-5">
-						<header class="grid grid-cols-4 border-b border-t border-light-purple py-3">
+						<header class="grid grid-cols-4 border-b border-t border-black py-3">
 							<h1 class="py-3 align-bottom text-left leading-4">Тикер</h1>
 							<h1 class="py-3 align-bottom text-left leading-4">Сектор</h1>
 							<h1 class="py-3 align-bottom text-left leading-4">Источники риска</h1>
 							<h1 class="py-3 align-bottom text-left leading-4">Рекомендации</h1>
 						</header>
-						<main v-for="stock in stocks" :key="stock.id" class="grid grid-cols-4 py-3 border-b border-light-purple">
+						<main v-for="stock in stocks" :key="stock.id" class="grid grid-cols-4 py-3 border-b border-black transition transform duration-200 hover:shadow-y">
 							<div class="flex space-x-2">
 								<div class="cursor-pointer flex items-center" @click="stock.recommendation.show = !stock.recommendation.show">
 									<img v-if="!stock.recommendation.show" class="w-5" src="../assets/icons/chevron-right.svg" alt="">
@@ -100,21 +100,21 @@
 									</div>
 								</router-link>
 							</div>
-							<div>
+							<router-link @click="logTicker(stock.ticker)" :to="{ name: 'Analytics', params: { id: stock.id }}">
 								<div class="flex space-x-2">
 									<svg class="w-4" style="min-width: 1rem;" viewBox="0 0 100 100" :fill="stock.sector.color" xmlns="http://www.w3.org/2000/svg">
 										<circle cx="50" cy="50" r="50"/>
 									</svg>
 									<div>{{ stock.sector.name }}</div>
 								</div>
-							</div>
-							<div>
+							</router-link>
+							<router-link @click="logTicker(stock.ticker)" :to="{ name: 'Analytics', params: { id: stock.id }}">
 								<div class="flex space-x-2 items-center font-benzin-semibold text-sm text-white relative">
 									<div v-if="stock.techSum.color != '#00FF4A'" :id="`tech${stock.id}`" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${stock.techSum.color}`">Т.А<span class="tooltip">Технический Анализ</span></div>
 									<div v-if="stock.fundSum.color != '#00FF4A'" :id="`fund${stock.id}`" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${stock.fundSum.color}`">Ф.А<span class="tooltip">Фундаментальный Анализ</span></div>
 									<div v-if="stock.contextSum.color != '#00FF4A'" class="rounded-full py-1 px-3" :style="`background-color: ${stock.contextSum.color}`">Фон</div>
 								</div>
-							</div>
+							</router-link>
 							<div class="flex justify-between">
 								<div>
 									<p>{{ stock.recommendation.text}}</p>

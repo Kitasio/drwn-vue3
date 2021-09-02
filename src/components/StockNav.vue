@@ -18,7 +18,7 @@
                     <img class="w-5 h-5" :src="img.img" alt="">
                 </a>
             </div>
-            <div class="hidden md:flex">
+            <div v-if="!user" class="hidden md:flex">
                 <router-link class="font-benzin-semibold text-sm text-light-purple hover:text-base-green transition duration-200" to="/login">Вход</router-link>
             </div>
         </div>
@@ -39,10 +39,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import authFuncs from '../composables/authFuncs'
 
 export default defineComponent({
     setup() {
         const toggleBurger = ref(false)
+        const {user, getUser} = authFuncs()
+        getUser()
         const images = ref([
             { img: '/img/tg.svg', link: 'https://t.me/drwn_trade'},
             { img: '/img/yt.svg', link: 'https://www.youtube.com/channel/UCLbKokxJVsqfraWGYKtC7Uw'},
@@ -50,7 +53,8 @@ export default defineComponent({
 
         return {
             toggleBurger,
-            images
+            images,
+            user,
         }
     },
 })

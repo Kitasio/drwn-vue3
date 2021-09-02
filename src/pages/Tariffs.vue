@@ -58,6 +58,7 @@ import { defineComponent, ref } from 'vue'
 import StockNav from '../components/StockNav.vue'
 import StockLinks from '../components/StockLinks.vue'
 import authFuncs from '../composables/authFuncs'
+import { useRouter } from 'vue-router'
 import { auth, db, ts } from '../composables/fireConf'
 
 export default defineComponent({
@@ -68,7 +69,7 @@ export default defineComponent({
     setup() {
         const { getUser, dbUser, user } = authFuncs()
         getUser()
-
+        const router = useRouter()
         const tariffStart = ref([
             { text: 'Собственный домен' },
             { text: 'Однократная оплата за размещение' },
@@ -79,67 +80,69 @@ export default defineComponent({
         ])
 
         const pay = () => {
-            var widget = new cp.CloudPayments();
-            var receipt = {
-                Items: [//товарные позиции
+            if (!dbUser.value.subscriber) {
+                var widget = new cp.CloudPayments();
+                var receipt = {
+                    Items: [//товарные позиции
+                        {
+                            label: 'Ежемесячная подписка на drwn.biz, тарифф "Трейдер"', //наименование товара
+                            price: 490.00, //цена
+                            quantity: 1.00, //количество
+                            amount: 490.00, //сумма
+                            vat: 0, //ставка НДС
+                            method: 0, // тег-1214 признак способа расчета - признак способа расчета
+                            object: 0, // тег-1212 признак предмета расчета - признак предмета товара, работы, услуги, платежа, выплаты, иного предмета расчета
+                        }
+                    ],
+                    taxationSystem: 0, //система налогообложения; необязательный, если у вас одна система налогообложения
+                    email: user.value.email, //e-mail покупателя, если нужно отправить письмо с чеком
+                    phone: '', //телефон покупателя в любом формате, если нужно отправить сообщение со ссылкой на чек
+                    isBso: false, //чек является бланком строгой отчетности
+                    amounts:
                     {
-                        label: 'Ежемесячная подписка на drwn.biz, тарифф "Трейдер"', //наименование товара
-                        price: 490.00, //цена
-                        quantity: 1.00, //количество
-                        amount: 490.00, //сумма
-                        vat: 0, //ставка НДС
-                        method: 0, // тег-1214 признак способа расчета - признак способа расчета
-                        object: 0, // тег-1212 признак предмета расчета - признак предмета товара, работы, услуги, платежа, выплаты, иного предмета расчета
+                        electronic: 490.00, // Сумма оплаты электронными деньгами
+                        advancePayment: 0.00, // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
+                        credit: 0.00, // Сумма постоплатой(в кредит) (2 знака после запятой)
+                        provision: 0.00 // Сумма оплаты встречным предоставлением (сертификаты, др. мат.ценности) (2 знака после запятой)
                     }
-                ],
-                taxationSystem: 0, //система налогообложения; необязательный, если у вас одна система налогообложения
-                email: user.value.email, //e-mail покупателя, если нужно отправить письмо с чеком
-                phone: '', //телефон покупателя в любом формате, если нужно отправить сообщение со ссылкой на чек
-                isBso: false, //чек является бланком строгой отчетности
-                amounts:
-                {
-                    electronic: 490.00, // Сумма оплаты электронными деньгами
-                    advancePayment: 0.00, // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
-                    credit: 0.00, // Сумма постоплатой(в кредит) (2 знака после запятой)
-                    provision: 0.00 // Сумма оплаты встречным предоставлением (сертификаты, др. мат.ценности) (2 знака после запятой)
-                }
-            };
-            var data = {};
-            data.CloudPayments = {
-                CustomerReceipt: receipt, //чек для первого платежа
-                recurrent: {
-                interval: 'Month',
-                period: 1, 
-                customerReceipt: receipt //чек для регулярных платежей
-                }
+                };
+                var data = {};
+                data.CloudPayments = {
+                    CustomerReceipt: receipt, //чек для первого платежа
+                    recurrent: {
+                        interval: 'Month',
+                        period: 1, 
+                        customerReceipt: receipt //чек для регулярных платежей
+                    }
                 }; //создание ежемесячной подписки
-
-            widget.charge({ // options
-                publicId: 'pk_4025d91550552c61948655bdaab18', //id из личного кабинета
-                description: 'Подписка на ежемесячный доступ к сайту drwn.biz', //назначение
-                amount: 1, //сумма
-                currency: 'RUB', //валюта
-                // invoiceId: '1234567', //номер заказа  (необязательно)
-                accountId: user.value.email, //идентификатор плательщика (обязательно для создания подписки)
-                skin: "mini",
-                data: data
-            },
-            function (options: any) { // success
-                //действие при успешной оплате
-                console.log('success payment!!, options: ', options)
-                auth.onAuthStateChanged(user => {
-                    if (user) {
-                        db.collection('users').doc(user.uid).update({
-                            subscriber: true,
-                            subscriptionUpdated: new Date(),
-                        })
-                    }
-                })
-            },
-            function (reason: any, options: any) { // fail
-                //действие при неуспешной оплате
-                console.log('failed payment, reason: ', reason)
-            });
+                widget.charge({ // options
+                    publicId: 'pk_4879c936c11b1c74279b88702169f', //id из личного кабинета
+                    description: 'Подписка на ежемесячный доступ к сайту drwn.biz', //назначение
+                    amount: 1, //сумма
+                    currency: 'RUB', //валюта
+                    // invoiceId: '1234567', //номер заказа  (необязательно)
+                    accountId: user.value.email, //идентификатор плательщика (обязательно для создания подписки)
+                    skin: "mini",
+                    data: data
+                },
+                function (options: any) { // success
+                    //действие при успешной оплате
+                    auth.onAuthStateChanged(user => {
+                        if (user) {
+                            db.collection('users').doc(user.uid).update({
+                                subscriber: true,
+                                subscriptionUpdated: new Date(),
+                            })
+                            console.log('sucess pay')
+                            router.push('/client')
+                        }
+                    })
+                },
+                function (reason: any, options: any) { // fail
+                    //действие при неуспешной оплате
+                    console.log('failed payment, reason: ', reason)
+                });
+            }
         }
 
         return {
