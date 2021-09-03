@@ -21,6 +21,9 @@
             <div v-if="!user" class="hidden md:flex">
                 <router-link class="font-benzin-semibold text-sm text-light-purple hover:text-base-green transition duration-200" to="/login">Вход</router-link>
             </div>
+            <div v-else class="hidden md:flex cursor-pointer">
+                <div @click="logout(); $router.push('/login')" class="font-benzin-semibold text-sm text-light-purple hover:text-base-red transition duration-200">Выход</div>
+            </div>
         </div>
         <div v-if="toggleBurger" class="mb-5 text-xl font-ttnorms">
             <router-link to="/profile">
@@ -44,7 +47,7 @@ import authFuncs from '../composables/authFuncs'
 export default defineComponent({
     setup() {
         const toggleBurger = ref(false)
-        const {user, getUser} = authFuncs()
+        const { user, getUser, logout } = authFuncs()
         getUser()
         const images = ref([
             { img: '/img/tg.svg', link: 'https://t.me/drwn_trade'},
@@ -55,6 +58,7 @@ export default defineComponent({
             toggleBurger,
             images,
             user,
+            logout,
         }
     },
 })

@@ -59,19 +59,19 @@
                         </div>
                         <Star v-else class="has-tooltip text-sm">Зарегистрируйся, чтобы посмотреть бесплатно</Star>
                     </div>
-                    <p v-if="index == 0 || index == 1 || user">{{s.keyFactor}}</p>
+                    <p class="flex items-center" v-if="index == 0 || index == 1 || user">{{s.keyFactor}}</p>
                     <Star v-else class="has-tooltip text-sm">Зарегистрируйся, чтобы посмотреть бесплатно</Star>
-                    <div class="flex space-x-2 items-center font-benzin-semibold text-sm text-white relative">
+                    <div class="flex items-center font-benzin-semibold text-sm text-white relative">
                         <div v-if="index == 0 || index == 1 || user">
-                            <div v-if="s.techSum.color !== '#00FF4A' && s.techSum.color" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${s.techSum.color}`">Т.А<span class="tooltip">Технический Анализ</span></div>
+                            <div v-if="s.techSum.color !== '#00FF4A' && s.techSum.color" class="rounded-full mr-2 py-1 px-3 has-tooltip" :style="`background-color: ${s.techSum.color}`">Т.А<span class="tooltip">Технический Анализ</span></div>
                         </div>
                         <Star v-else class="has-tooltip pr-5 text-sm">Зарегистрируйся, чтобы посмотреть бесплатно</Star>
-                        <div v-if="index == 0 || index == 1 || user">
-                            <div v-if="s.fundSum.color !== '#00FF4A' && s.fundSum.color" class="rounded-full py-1 px-3 has-tooltip" :style="`background-color: ${s.fundSum.color}`">Ф.А<span class="tooltip">Фундаментальный Анализ</span></div>
+                        <div  v-if="index == 0 || index == 1 || user">
+                            <div v-if="s.fundSum.color !== '#00FF4A' && s.fundSum.color" class="rounded-full mr-2 py-1 px-3 has-tooltip" :style="`background-color: ${s.fundSum.color}`">Ф.А<span class="tooltip">Фундаментальный Анализ</span></div>
                         </div>
                         <Star v-else class="has-tooltip pr-5 text-sm">Зарегистрируйся, чтобы посмотреть бесплатно</Star>
-                        <div v-if="index == 0 || index == 1 || user">
-                            <div v-if="s.contextSum.color !== '#00FF4A' && s.contextSum.color" class="rounded-full py-1 px-3" :style="`background-color: ${s.contextSum.color}`">Фон</div>
+                        <div  v-if="index == 0 || index == 1 || user">
+                            <div v-if="s.contextSum.color !== '#00FF4A' && s.contextSum.color" class="rounded-full mr-2 py-1 px-3" :style="`background-color: ${s.contextSum.color}`">Фон</div>
                         </div>
                         <Star v-else class="has-tooltip text-sm">Зарегистрируйся, чтобы посмотреть бесплатно</Star>
                     </div>

@@ -116,9 +116,9 @@ export default defineComponent({
                     }
                 }; //создание ежемесячной подписки
                 widget.charge({ // options
-                    publicId: 'pk_4879c936c11b1c74279b88702169f', //id из личного кабинета
+                    publicId: 'pk_4025d91550552c61948655bdaab18', //id из личного кабинета
                     description: 'Подписка на ежемесячный доступ к сайту drwn.biz', //назначение
-                    amount: 1, //сумма
+                    amount: 490, //сумма
                     currency: 'RUB', //валюта
                     // invoiceId: '1234567', //номер заказа  (необязательно)
                     accountId: user.value.email, //идентификатор плательщика (обязательно для создания подписки)
